@@ -1,0 +1,73 @@
+module.exports = {
+  env: {
+    browser: true,
+    node: true,
+    es2022: true,
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecma: 2022,
+    sourceType: 'module',
+    project: ['./tsconfig.json'],
+    ecmaFeatures: { jsx: true },
+  },
+  plugins: ['react', '@typescript-eslint'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
+    'prettier',
+  ],
+  settings: {
+    react: { version: 'detect' },
+    'import/resolver': {
+      typescript: { project: './tsconfig.json' },
+      node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    },
+  },
+  rules: {
+    'no-var': 'error',
+    eqeqeq: ['error', 'always'],
+    'no-nested-ternary': 'error',
+    'no-console': 'warn',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+    '@typescript-eslint/no-empty-function': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
+    'react/prop-types': 'off',
+    'import/no-default-export': 'error',
+    'import/prefer-default-export': 'off',
+    'react/function-component-definition': [
+      2,
+      { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
+    ],
+    'react/jsx-props-no-spreading': 'warn',
+    'react/require-default-props': 'warn',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'import/order': [
+      'error',
+      {
+        groups: ['builtin', 'external', ['internal', 'parent', 'sibling', 'index'], 'object', 'type'],
+        'newlines-between': 'always',
+        pathGroups: [{ pattern: 'react', group: 'external', position: 'before' }],
+        pathGroupsExcludedImportTypes: ['react'],
+      },
+    ],
+  },
+};
