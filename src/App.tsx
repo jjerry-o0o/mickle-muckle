@@ -9,11 +9,13 @@ function App() {
     <div className="w-full h-dvh bg-background flex">
       <BrowserRouter>
         <SideBar></SideBar>
-        <Routes>
-          <Route path="/" element={<MonthPage />} />
-          <Route path="/total" element={<TotalAssetsPage />} />
-          <Route path="/finance" element={<FinancePage />} />
-        </Routes>
+        <main className="flex-1 h-full">
+          <Routes>
+            <Route path="/" element={<MonthPage />} />
+            <Route path="/total" element={<TotalAssetsPage />} />
+            <Route path="/finance" element={<FinancePage />} />
+          </Routes>
+        </main>
       </BrowserRouter>
     </div>
   );

@@ -121,3 +121,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.text_vertical {
+  writing-mode: vertical-rl;
+}
