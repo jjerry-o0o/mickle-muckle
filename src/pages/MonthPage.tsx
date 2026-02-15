@@ -1,22 +1,47 @@
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup, ScrollArea } from '@/components/ui';
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+  ScrollArea,
+  Table,
+  TableCaption,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from '@/components/ui';
 import { DayText, WeekBox } from '@/components/customUi';
+import { payments, weekText } from '@/assets/mockData';
 const MonthPage = () => {
+  const date = new Date();
+  const day = date.getDay();
+  const today = date.getDate();
+  const startDay = 7 - ((today - (day + 1)) % 7);
+
+  const getDayNums = () => {
+    // 오늘 일자 기준으로 1일의 요일(0~6) 구하기
+    const startDay = 7 - ((today - (day + 1)) % 7);
+  };
+
   return (
     <div className="flex w-full h-full">
       <ResizablePanelGroup orientation="horizontal" className="w-full h-full">
         <ResizablePanel minSize="40" className="h-full">
           <div className="flex flex-col border border-black w-full h-full">
             <h2 className="h-20">2026년 2월</h2>
+            <h2 className="h-20">요일(0~6) = {day}</h2>
+            <h2 className="h-20">오늘 = {today}</h2>
+            <h2 className="h-20">1일의 요일 = {startDay}</h2>
             <div className="flex f-full">
-              <DayText day="일"></DayText>
-              <DayText day="월"></DayText>
-              <DayText day="화"></DayText>
-              <DayText day="수"></DayText>
-              <DayText day="목"></DayText>
-              <DayText day="금"></DayText>
-              <DayText day="토"></DayText>
+              {weekText.map(day => (
+                <DayText key={day.id} day={day.text}></DayText>
+              ))}
             </div>
             <ScrollArea className="flex flex-1 flex-col h-100">
+              <WeekBox></WeekBox>
+              <WeekBox></WeekBox>
+              <WeekBox></WeekBox>
               <WeekBox></WeekBox>
               <WeekBox></WeekBox>
               <WeekBox></WeekBox>
@@ -26,8 +51,33 @@ const MonthPage = () => {
         </ResizablePanel>
         <ResizableHandle></ResizableHandle>
         <ResizablePanel>
-          <div className="flex border border-black">
+          <div className="flex flex-col border border-black">
             <p>일별 지출 목록</p>
+            <ScrollArea>
+              <Table>
+                <TableCaption>일별 지출 목록입니다.</TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>date</TableHead>
+                    <TableHead>amount</TableHead>
+                    <TableHead>title</TableHead>
+                    <TableHead>category</TableHead>
+                    <TableHead>payType</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {payments.map(payment => (
+                    <TableRow key={payment.id}>
+                      <TableCell>{payment.date}</TableCell>
+                      <TableCell>{payment.amount}</TableCell>
+                      <TableCell>{payment.title}</TableCell>
+                      <TableCell>{payment.category}</TableCell>
+                      <TableCell>{payment.payType}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </ScrollArea>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
