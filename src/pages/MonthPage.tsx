@@ -11,8 +11,9 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui';
-import { DayText, WeekBox } from '@/components/customUi';
+import { DayText, WeekBox, MonthlyCalendar } from '@/components/customUi';
 import { payments, weekText } from '@/assets/mockData';
+
 const MonthPage = () => {
   const date = new Date();
   const day = date.getDay();
@@ -33,6 +34,8 @@ const MonthPage = () => {
             <h2 className="h-20">요일(0~6) = {day}</h2>
             <h2 className="h-20">오늘 = {today}</h2>
             <h2 className="h-20">1일의 요일 = {startDay}</h2>
+
+            <MonthlyCalendar />
             <div className="flex f-full">
               {weekText.map(day => (
                 <DayText key={day.id} day={day.text}></DayText>
