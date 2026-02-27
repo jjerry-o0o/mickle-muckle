@@ -1,8 +1,7 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
-// import '@fullcalendar/core/index.css';
-// import '@fullcalendar/daygrid/index.css';
+import '@/components/customUi/monthly-calendar.css';
 
 const MonthlyCalendar = () => {
   return (
@@ -10,7 +9,12 @@ const MonthlyCalendar = () => {
       <FullCalendar
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
-        headerToolbar={{ left: 'prev,next today', center: 'title', right: '' }}
+        customButtons={{
+          customToday: {
+            text: '오늘',
+          },
+        }}
+        headerToolbar={{ left: 'title', center: '', right: 'customToday prev,next' }}
       />
     </div>
   );
