@@ -1,5 +1,7 @@
 import FullCalendar from '@fullcalendar/react';
 import multiMonthPlugin from '@fullcalendar/multimonth';
+import { DayText } from '@/components/customUi';
+import { weekText } from '@/assets/mockData';
 
 import '@/components/customUi/monthly-calendar.css';
 import { useEffect, useRef, useState } from 'react';
@@ -51,24 +53,36 @@ const MonthlyCalendar = () => {
   }, []);
 
   return (
-    <div ref={wrapRef} className="">
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[multiMonthPlugin]}
-        initialView="multiMonthYear"
-        multiMonthMaxColumns={1}
-        customButtons={{
-          customToday: {
-            text: '오늘',
-            click: () => calendarRef.current?.getApi().today(),
-          },
-          customTitle: {
-            text: calendarTitle,
-          },
-        }}
-        headerToolbar={{ left: 'customTitle', right: 'customToday' }}
-        titleFormat={{ year: 'numeric', month: '2-digit' }}
-      />
+    <div ref={wrapRef} className="flex flex-col h-full justify-center">
+      <div className="flex justify-between mx-4 px-2 pb-4">
+        <div className="customTitle">{calendarTitle}</div>
+        <button type="button" className="customToday-Btn" onClick={() => calendarRef.current?.getApi().today()}>
+          Today
+        </button>
+      </div>
+      <div className="border-2 mx-4 rounded-4xl overflow-auto mb-8">
+        <div className="flex f-full bg-[var(--background)] border-b-1">
+          {weekText.map(day => (
+            <DayText key={day.id} day={day.text}></DayText>
+          ))}
+        </div>
+        <FullCalendar
+          ref={calendarRef}
+          plugins={[multiMonthPlugin]}
+          initialView="multiMonthYear"
+          multiMonthMaxColumns={1}
+          customButtons={{
+            customToday: {
+              text: '오늘',
+            },
+            customTitle: {
+              text: calendarTitle,
+            },
+          }}
+          headerToolbar={{ left: '', right: '' }}
+          titleFormat={{ year: 'numeric', month: '2-digit' }}
+        />
+      </div>
     </div>
   );
 };

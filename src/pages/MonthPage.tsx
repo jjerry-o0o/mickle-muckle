@@ -1,7 +1,4 @@
 import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
   ScrollArea,
   Table,
   TableCaption,
@@ -11,44 +8,15 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui';
-import { DayText, WeekBox, MonthlyCalendar } from '@/components/customUi';
-import { payments, weekText } from '@/assets/mockData';
+import { MonthlyCalendar } from '@/components/customUi';
+import { payments } from '@/assets/mockData';
 
 const MonthPage = () => {
-  const date = new Date();
-  const day = date.getDay();
-  const today = date.getDate();
-  const startDay = 7 - ((today - (day + 1)) % 7);
-
-  const getDayNums = () => {
-    // 오늘 일자 기준으로 1일의 요일(0~6) 구하기
-    const startDay = 7 - ((today - (day + 1)) % 7);
-  };
-
   return (
-    <div className="flex w-full h-full">
-      {/*<ResizablePanelGroup orientation="horizontal" className="w-full h-full">*/}
-      {/*  <ResizablePanel minSize="40" className="h-full">*/}
-      <div className="flex flex-col w-[60%] h-full mt-8">
+    <div className="flex w-full h-full bg-[var(--background2)]">
+      <div className="flex flex-col w-[60%] h-full">
         <MonthlyCalendar />
-        {/*<div className="flex f-full">*/}
-        {/*  {weekText.map(day => (*/}
-        {/*    <DayText key={day.id} day={day.text}></DayText>*/}
-        {/*  ))}*/}
-        {/*</div>*/}
-        {/*<ScrollArea className="flex flex-1 flex-col h-100">*/}
-        {/*<WeekBox></WeekBox>*/}
-        {/*<WeekBox></WeekBox>*/}
-        {/*<WeekBox></WeekBox>*/}
-        {/*<WeekBox></WeekBox>*/}
-        {/*<WeekBox></WeekBox>*/}
-        {/*<WeekBox></WeekBox>*/}
-        {/*<WeekBox></WeekBox>*/}
-        {/*</ScrollArea>*/}
       </div>
-      {/*</ResizablePanel>*/}
-      {/*<ResizableHandle></ResizableHandle>*/}
-      {/*<ResizablePanel>*/}
       <div className="flex flex-col w-[40%] border border-black">
         <p>일별 지출 목록</p>
         <ScrollArea>
@@ -77,8 +45,6 @@ const MonthPage = () => {
           </Table>
         </ScrollArea>
       </div>
-      {/*</ResizablePanel>*/}
-      {/*</ResizablePanelGroup>*/}
     </div>
   );
 };
