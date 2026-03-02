@@ -56,12 +56,16 @@ const MonthlyCalendar = () => {
     <div ref={wrapRef} className="flex flex-col h-full justify-center">
       <div className="flex justify-between mx-4 px-2 pb-4">
         <div className="customTitle">{calendarTitle}</div>
-        <button type="button" className="customToday-Btn" onClick={() => calendarRef.current?.getApi().today()}>
+        <button
+          type="button"
+          className="customToday-Btn shadow-md"
+          onClick={() => calendarRef.current?.getApi().today()}
+        >
           Today
         </button>
       </div>
-      <div className="border-2 mx-4 rounded-4xl overflow-auto mb-8">
-        <div className="flex f-full bg-[var(--background)] border-b-1">
+      <div className="border-2 mx-4 rounded-4xl overflow-auto mb-8 shadow-lg">
+        <div className="flex f-full bg-background border-b">
           {weekText.map(day => (
             <DayText key={day.id} day={day.text}></DayText>
           ))}
