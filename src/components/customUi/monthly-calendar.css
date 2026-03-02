@@ -35,11 +35,8 @@
 }
 
 .fc .fc-button-primary {
-  background: #f0f2f5;
-  border: 1px solid #dfe4ea;
-  color: #2f3440;
-  border-radius: 12px;
-  padding: 0.4rem 0.8rem;
+  border: none;
+  color: #ffffff;
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -54,15 +51,33 @@
   box-shadow: 0 0 0 3px rgba(88, 191, 150, 0.2);
 }
 
-.fc .fc-button-primary:disabled {
-  opacity: 0.55;
-}
-
 .fc .fc-button-active,
 .fc .fc-button-primary:not(:disabled):active {
   background: var(--cal-mint);
   border-color: var(--cal-mint);
   color: #fff;
+}
+
+/* customToday 기본 색상 */
+.fc .fc-customToday-button {
+  background: #58bf96 !important;
+  border: 1px solid #58bf96 !important;
+  color: #ffffff !important;
+}
+
+/* hover 시 더 진한 민트 */
+.fc .fc-customToday-button:hover {
+  background: #43ad83 !important;
+  border-color: #43ad83 !important;
+  color: #ffffff !important;
+}
+
+/* active/focus도 톤 맞춤 (선택) */
+.fc .fc-customToday-button:focus,
+.fc .fc-customToday-button:active {
+  background: #3b9e77 !important;
+  border-color: #3b9e77 !important;
+  box-shadow: 0 0 0 3px rgba(88, 191, 150, 0.25) !important;
 }
 
 .fc-theme-standard .fc-scrollgrid {
@@ -76,34 +91,9 @@
   border: 1px solid var(--cal-border);
 }
 
-.fc .fc-col-header-cell {
-  background: #f5f6f8;
-  height: 34px;
-}
-
-.fc .fc-col-header-cell-cushion {
-  text-decoration: none;
-  color: #737b88;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 8px 0;
-}
-
 .fc .fc-daygrid-day {
   background: #fff;
   min-height: 96px;
-}
-
-.fc .fc-daygrid-day-number {
-  text-decoration: none;
-  color: #343b48;
-  font-size: 0.93rem;
-  font-weight: 700;
-  padding: 10px 10px 0;
-}
-
-.fc .fc-day-other .fc-daygrid-day-number {
-  color: #a9b0bc;
 }
 
 .fc .fc-day-today {
@@ -123,29 +113,51 @@
   padding: 0;
 }
 
-.fc .fc-daygrid-event {
-  background: var(--cal-chip-bg);
-  border: 1px solid #e0e5eb;
-  border-radius: 10px;
-  color: #646e7d;
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 4px 8px;
+/* 각 월 제목 영역 숨김 */
+.fc .fc-multimonth-title {
+  display: none;
 }
 
-.fc .fc-daygrid-dot-event .fc-event-title {
-  color: #606a79;
+/* 요일 헤더 숨김 */
+.fc .fc-multimonth-header-table {
+  display: none;
 }
 
-.fc .fc-daygrid-event-dot {
-  border-color: var(--cal-chip-dot);
-  border-width: 4px;
-  margin-right: 6px;
+/* customTitle만 별도 스타일 */
+.fc .fc-customTitle-button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #2d323d !important;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  padding: 0;
+  line-height: 1.1;
+  cursor: default;
 }
 
-.fc .fc-daygrid-more-link {
-  color: var(--cal-subtext);
-  font-size: 0.72rem;
+
+/* 현재 가시성 범위에 보여진 달력 영역에 년/월 표기 */
+.fc .fc-multimonth-month {
+  position: relative;
+}
+.fc .fc-multimonth-month .fc-visible-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+
+  background: #9bdfc4;
+  color: #242a35;
+  font-size: 18px;
   font-weight: 700;
-  text-decoration: none;
+  padding: 4px 10px;
+
+  opacity: 0;
+  transition: 0.3s ease;
 }
+.fc .fc-multimonth-month .fc-visible-badge.on {
+  opacity: 1;
+}
+
