@@ -1,10 +1,10 @@
 import FullCalendar from '@fullcalendar/react';
 import multiMonthPlugin from '@fullcalendar/multimonth';
-import { DayText } from '@/components/customUi';
-import { weekText } from '@/assets/mockData';
 
 import '@/components/customUi/monthly-calendar.css';
 import { useEffect, useRef, useState } from 'react';
+
+const WEEK_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const MonthlyCalendar = () => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -42,7 +42,6 @@ const MonthlyCalendar = () => {
               dateBadge.classList.remove('on');
               setTimeout(() => dateBadge.remove(), 250); // transition 시간과 맞춤
             }, 1000);
-          } else {
           }
         });
       },
@@ -54,6 +53,7 @@ const MonthlyCalendar = () => {
 
   return (
     <div ref={wrapRef} className="flex flex-col h-full justify-center">
+      {/* 캘린더 헤더 영역 */}
       <div className="flex justify-between mx-4 px-2 pb-4">
         <div className="customTitle">{calendarTitle}</div>
         <button
@@ -64,10 +64,11 @@ const MonthlyCalendar = () => {
           Today
         </button>
       </div>
+      {/* 캘린더 영역 */}
       <div className="border-2 mx-4 rounded-4xl overflow-auto mb-8 shadow-lg">
         <div className="flex f-full bg-background border-b">
-          {weekText.map(day => (
-            <DayText key={day.id} day={day.text}></DayText>
+          {WEEK_DAYS.map(day => (
+            <p key={day} className="flex flex-1 w-full h-10 items-center justify-center">{day}</p>
           ))}
         </div>
         <FullCalendar
@@ -75,16 +76,7 @@ const MonthlyCalendar = () => {
           plugins={[multiMonthPlugin]}
           initialView="multiMonthYear"
           multiMonthMaxColumns={1}
-          customButtons={{
-            customToday: {
-              text: '오늘',
-            },
-            customTitle: {
-              text: calendarTitle,
-            },
-          }}
           headerToolbar={{ left: '', right: '' }}
-          titleFormat={{ year: 'numeric', month: '2-digit' }}
         />
       </div>
     </div>
