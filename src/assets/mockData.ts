@@ -6,6 +6,7 @@ const payments = [
     title: '청계마트 딸기우유',
     category: '간식',
     payType: '케이뱅크체크카드',
+    entryType: 'E',
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ const payments = [
     title: '카페인24 - 아메리카노',
     category: '카페',
     payType: '케이뱅크체크카드',
+    entryType: 'E',
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ const payments = [
     title: '지그재그 - 니트',
     category: '옷',
     payType: '신한더모아신용카드',
+    entryType: 'E',
   },
   {
     id: 4,
@@ -30,6 +33,7 @@ const payments = [
     title: 'GS25 - 삼각김밥',
     category: '간식',
     payType: '케이뱅크체크카드',
+    entryType: 'E',
   },
   {
     id: 5,
@@ -38,6 +42,16 @@ const payments = [
     title: '올리브영',
     category: '화장품',
     payType: '신한더모아신용카드',
+    entryType: 'E',
+  },
+  {
+    id: 6,
+    date: '20260214',
+    amount: 2500,
+    title: '당근 판매',
+    category: '책갈피',
+    payType: '현급',
+    entryType: 'I',
   },
 ];
 

@@ -14,4 +14,4 @@ const IndexTab = ({ linkTo, menuName, color }: indexTabProps) => {
   );
 };
 
-export { IndexTab };
+export default IndexTab;
