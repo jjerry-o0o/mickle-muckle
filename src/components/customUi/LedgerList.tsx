@@ -9,7 +9,7 @@ import {
   TableRow,
 } from '@/components/ui';
 import { payments } from '@/assets/mockData';
-import { formatToKoreanDate } from '@/utils/dateUyils';
+import { formatToKoreanDate } from '@/utils/dateUtil';
 
 const LedgerList = () => {
   return (
