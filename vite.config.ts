@@ -10,4 +10,12 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    watch: {
+      usePolling: true, // 파일을 계속 감시하도록
+    },
+    host: true, // 0.0.0.0 으로 노출
+    strictPort: true,
+    port: 5173,
+  },
 });
