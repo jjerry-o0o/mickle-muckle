@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchLedgerEntriesByMonth, fetchLedgerEntriesByPagination, fetchLedgerEntry } from '@/api/ledger';
 
-export const useLedger = {
+export const useLedgerFetch = {
   useLedgerEntry: (id: number) =>
     useQuery({
       queryKey: ['ledger', id],
