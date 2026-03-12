@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchLedgerEntriesByMonth, fetchLedgerEntriesByPagination, fetchLedgerEntry } from '@/api/ledger';
+import { fetchLedgerEntriesByMonth, fetchLedgerEntriesByPagination, fetchLedgerEntry } from '@/api/ledgerApi';
 
 export const useLedgerFetch = {
   useLedgerEntry: (id: number) =>
@@ -19,8 +19,4 @@ export const useLedgerFetch = {
       queryKey: ['ledger', pageNum],
       queryFn: () => fetchLedgerEntriesByPagination(pageNum),
     }),
-};
-
-(id: number) => {
-  return;
 };
