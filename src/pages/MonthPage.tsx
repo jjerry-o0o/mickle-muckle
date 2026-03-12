@@ -8,7 +8,7 @@ const MonthPage = () => {
       <div className="flex flex-col w-[60%] h-full">
         <MonthlyCalendar />
       </div>
-      <div className="flex flex-col w-[40%] border border-black p-4">
+      <div className="flex flex-col w-[40%] border border-black p-4 bg-[var(--background)]">
         <LedgerList />
       </div>
     </div>
