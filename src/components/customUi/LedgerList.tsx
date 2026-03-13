@@ -1,10 +1,12 @@
 import { ScrollArea } from '@/components/ui';
 import { formatToKoreanDate } from '@/utils/dateUtil';
-import type { EntryType } from '@/types/ledger';
+import type { EntryType, LedgerEntryDetail } from '@/types/ledger';
 import { useLedgerFetch } from '@/hooks/useLedgerFetch';
 import { useCategoryFetch } from '@/hooks/useCategoryFetch';
 import { usePaymentMethodFetch } from '@/hooks/usePaymentMethodFetch';
 import { clsx } from 'clsx';
+import type { category } from '@/types/category';
+import type { paymentMethod } from '@/types/paymentMethod';
 
 const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
 const amountTextStyle = (entryType: EntryType) => (entryType === 'E' ? 'text-orange-500' : 'text-blue-600');
@@ -13,8 +15,9 @@ const LedgerList = () => {
   const { data: entries = [] } = useLedgerFetch.useLedgerEntriesByPagination(0);
   const { data: categories = [] } = useCategoryFetch.useCategories();
   const { data: paymentMethods = [] } = usePaymentMethodFetch.usePaymentMethods();
-  const findCategory = (categoryId: number) => categories.find(item => item.id === categoryId);
-  const findPaymentMethod = (paymentMethodId: number) => paymentMethods.find(item => item.id === paymentMethodId);
+  const findCategory = (categoryId: number) => categories.find((item: category) => item.id === categoryId);
+  const findPaymentMethod = (paymentMethodId: number) =>
+    paymentMethods.find((item: paymentMethod) => item.id === paymentMethodId);
 
   return (
     <div className="space-y-3">
@@ -30,7 +33,7 @@ const LedgerList = () => {
 
       <ScrollArea className="h-full">
         <div className="h-full space-y-3">
-          {entries?.map(entry => {
+          {entries?.map((entry: LedgerEntryDetail) => {
             const formattedDate = formatToKoreanDate(entry.entryDate);
             const amount = `${amountPrefix(entry.entryType)}${entry.amount.toLocaleString()}원`;
             const category = findCategory(entry.categoryId);
