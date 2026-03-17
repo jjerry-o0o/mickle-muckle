@@ -175,13 +175,10 @@
 .fc-event.fc-h-event {
   background-color: transparent;
 }
-.fc-h-event .fc-event-main {
-  color: var(--cal-text);
-}
 
-.event-border-left-income {
+.event-income-border-l {
   border-left: 3px solid var(--cal-mint);
 }
-.event-border-left-expense {
-    border-left: 3px solid var(--cal-chip-dot);
+.event-expense-border-l {
+  border-left: 3px solid var(--cal-chip-dot);
 }

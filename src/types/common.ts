@@ -11,6 +11,7 @@ export interface MonthEvents {
   start: string;
   allDay: boolean;
   classNames: string;
+  textColor: string;
   extendsProps: {
     amount: number;
   };

@@ -11,7 +11,8 @@ const MonthlyCalendar = () => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const calendarRef = useRef<FullCalendar | null>(null);
   const [currentYm, setCurrentYm] = useState('');
-  const { data: entries = [] } = useLedgerFetch.useLedgerEntriesByMonth(currentYm.replace('.', '-'));
+  // const { data: entries = [] } = useLedgerFetch.useLedgerEntriesByMonth(currentYm.replace('.', '-'));
+  const { data: entries = [] } = useLedgerFetch.useLedgerEntriesDailySum(currentYm.replace('.', '-'));
 
   useEffect(() => {
     // wrapRef 사용하여 지금 컴포넌트의 범위 내에서만 querySelector 진행.
@@ -81,6 +82,7 @@ const MonthlyCalendar = () => {
           multiMonthMaxColumns={1}
           headerToolbar={{ left: '', right: '' }}
           events={entries}
+          eventOrder={['-title']}
         />
       </div>
     </div>

@@ -1,5 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchLedgerEntriesByMonth, fetchLedgerEntriesByPagination, fetchLedgerEntry } from '@/api/ledgerApi';
+import {
+  fetchLedgerEntriesByMonth,
+  fetchLedgerEntriesByPagination,
+  fetchLedgerEntriesDailySum,
+  fetchLedgerEntry,
+} from '@/api/ledgerApi';
 
 export const useLedgerFetch = {
   useLedgerEntry: (id: number) =>
@@ -18,5 +23,11 @@ export const useLedgerFetch = {
     useQuery({
       queryKey: ['/ledger/month', pageNum],
       queryFn: () => fetchLedgerEntriesByPagination(pageNum),
+    }),
+
+  useLedgerEntriesDailySum: (targetYm: string) =>
+    useQuery({
+      queryKey: ['/ledger/month/sum', targetYm],
+      queryFn: () => fetchLedgerEntriesDailySum(targetYm),
     }),
 };

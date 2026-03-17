@@ -15,3 +15,5 @@ export interface LedgerEntry {
 export type LedgerEntryDetail = LedgerEntry;
 
 export type LedgerEntrySummary = Pick<LedgerEntry, 'entryId' | 'entryDate' | 'entryType' | 'amount' | 'title'>;
+
+export type LedgerEntryAmountSum = Pick<LedgerEntry, 'entryDate' | 'entryType' | 'amount'>;
