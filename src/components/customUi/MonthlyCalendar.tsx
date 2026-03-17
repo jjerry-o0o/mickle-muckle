@@ -3,13 +3,15 @@ import multiMonthPlugin from '@fullcalendar/multimonth';
 
 import '@/components/customUi/monthly-calendar.css';
 import { useEffect, useRef, useState } from 'react';
+import { useLedgerFetch } from '@/hooks/useLedgerFetch';
 
 const WEEK_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const MonthlyCalendar = () => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const calendarRef = useRef<FullCalendar | null>(null);
-  const [calendarTitle, setCalendarTitle] = useState('');
+  const [currentYm, setCurrentYm] = useState('');
+  const { data: entries = [] } = useLedgerFetch.useLedgerEntriesByMonth(currentYm.replace('.', '-'));
 
   useEffect(() => {
     // wrapRef 사용하여 지금 컴포넌트의 범위 내에서만 querySelector 진행.
@@ -26,10 +28,9 @@ const MonthlyCalendar = () => {
       monthCards => {
         monthCards.forEach(card => {
           if (card.isIntersecting && card.target instanceof HTMLElement) {
-            console.log('intersecting card = ', card.target.dataset.date);
             const date = card.target.dataset.date?.replace('-', '.');
             if (!date) return;
-            setCalendarTitle(date);
+            setCurrentYm(date);
 
             const dateBadge = document.createElement('div');
             dateBadge.className = 'fc-visible-badge';
@@ -55,7 +56,7 @@ const MonthlyCalendar = () => {
     <div ref={wrapRef} className="flex flex-col h-full justify-center">
       {/* 캘린더 헤더 영역 */}
       <div className="flex justify-between mx-4 px-2 pb-4">
-        <div className="customTitle">{calendarTitle}</div>
+        <div className="customTitle">{currentYm}</div>
         <button
           type="button"
           className="customToday-Btn shadow-md"
@@ -68,7 +69,9 @@ const MonthlyCalendar = () => {
       <div className="border-2 mx-4 rounded-4xl overflow-auto mb-8 shadow-lg">
         <div className="flex f-full bg-background border-b">
           {WEEK_DAYS.map(day => (
-            <p key={day} className="flex flex-1 w-full h-10 items-center justify-center">{day}</p>
+            <p key={day} className="flex flex-1 w-full h-10 items-center justify-center">
+              {day}
+            </p>
           ))}
         </div>
         <FullCalendar
@@ -77,6 +80,7 @@ const MonthlyCalendar = () => {
           initialView="multiMonthYear"
           multiMonthMaxColumns={1}
           headerToolbar={{ left: '', right: '' }}
+          events={entries}
         />
       </div>
     </div>

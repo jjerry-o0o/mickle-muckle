@@ -167,3 +167,21 @@
 .fc .fc-scroller::-webkit-scrollbar {
   display: none;              /* Chrome/Safari */
 }
+
+/* 각 day 칸 안에 보여질 수입/지출 항목 css */
+.fc .fc-daygrid-event-harness { margin-bottom: 2px;}
+.fc-h-event { border: none; }
+.fc-daygrid-event { border-radius: 0;}
+.fc-event.fc-h-event {
+  background-color: transparent;
+}
+.fc-h-event .fc-event-main {
+  color: var(--cal-text);
+}
+
+.event-border-left-income {
+  border-left: 3px solid var(--cal-mint);
+}
+.event-border-left-expense {
+    border-left: 3px solid var(--cal-chip-dot);
+}
