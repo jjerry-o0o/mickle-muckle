@@ -41,7 +41,7 @@ const LedgerList = () => {
             const methodType = paymentType?.methodType;
 
             return (
-              <div key={entry.id} className="rounded-2xl border border-slate-200 p-3 shadow">
+              <div key={entry.entryId} className="rounded-2xl border border-slate-200 p-3 shadow">
                 <div className="text-[16px]  flex items-center justify-between mb-2">
                   <div className="flex gap-2 items-center">
                     <p className="font-bold text-slate-900">{formattedDate}</p>

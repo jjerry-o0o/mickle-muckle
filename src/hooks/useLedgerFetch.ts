@@ -4,19 +4,19 @@ import { fetchLedgerEntriesByMonth, fetchLedgerEntriesByPagination, fetchLedgerE
 export const useLedgerFetch = {
   useLedgerEntry: (id: number) =>
     useQuery({
-      queryKey: ['ledger', id],
+      queryKey: ['/ledger', id],
       queryFn: () => fetchLedgerEntry(id),
     }),
 
   useLedgerEntriesByMonth: (targetYm: string) =>
     useQuery({
-      queryKey: ['ledger', targetYm],
+      queryKey: ['/ledger/month', targetYm],
       queryFn: () => fetchLedgerEntriesByMonth(targetYm),
     }),
 
   useLedgerEntriesByPagination: (pageNum: number) =>
     useQuery({
-      queryKey: ['ledger', pageNum],
+      queryKey: ['/ledger/month', pageNum],
       queryFn: () => fetchLedgerEntriesByPagination(pageNum),
     }),
 };

@@ -2,7 +2,7 @@
 export type EntryType = 'E' | 'I';
 
 export interface LedgerEntry {
-  id: number;
+  entryId: number;
   entryDate: string;
   entryType: EntryType;
   amount: number;
@@ -14,4 +14,4 @@ export interface LedgerEntry {
 
 export type LedgerEntryDetail = LedgerEntry;
 
-export type LedgerEntrySummary = Pick<LedgerEntry, 'id' | 'entryDate' | 'entryType' | 'amount' | 'title'>;
+export type LedgerEntrySummary = Pick<LedgerEntry, 'entryId' | 'entryDate' | 'entryType' | 'amount' | 'title'>;
