@@ -11,20 +11,15 @@ const MonthlyCalendar = () => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const calendarRef = useRef<FullCalendar | null>(null);
   const [currentYm, setCurrentYm] = useState('');
-  // const { data: entries = [] } = useLedgerFetch.useLedgerEntriesByMonth(currentYm.replace('.', '-'));
-  const { data: entries = [] } = useLedgerFetch.useLedgerEntriesDailySum(currentYm.replace('.', '-'));
+  const { data: MonthData } = useLedgerFetch.useLedgerEntriesDailySum(currentYm.replace('.', '-'));
+  const { events = [], totalAmount = { income: 0, expense: 0 } } = MonthData ?? {};
 
   useEffect(() => {
-    // wrapRef 사용하여 지금 컴포넌트의 범위 내에서만 querySelector 진행.
     const root = wrapRef.current;
     if (!root) return;
     const scroller = root.querySelector('.fc-scroller') as HTMLElement;
     const monthCards = Array.from(root.querySelectorAll('div[data-date]')) as HTMLElement[];
 
-    // IntersectionObserver : 웹 API이며 요소의 가시성 여부를 비동기적으로 감지함.
-    // (무한스크롤, 화면 리사이징, 이미지 로딩 지연, 애니매이션 효과 등에서 사용)
-    // 두번째 인자 - observer 의 동작을 설정하는데 사용.
-    //          - root: 영역, rootMargin: 영역의 축소/확대, threshold: 얼마나 보였을때 가시성 체크? (0.0 ~ 1.0)
     const observer = new IntersectionObserver(
       monthCards => {
         monthCards.forEach(card => {
@@ -56,8 +51,12 @@ const MonthlyCalendar = () => {
   return (
     <div ref={wrapRef} className="flex flex-col h-full justify-center">
       {/* 캘린더 헤더 영역 */}
-      <div className="flex justify-between mx-4 px-2 pb-4">
-        <div className="customTitle">{currentYm}</div>
+      <div className="flex justify-between mt-8 mx-4 px-2 pb-4 shrink-0">
+        <div className="flex gap-2 items-baseline">
+          <p className="customTitle">{currentYm}</p>
+          <span className="text-lg text-emerald-500">+ {totalAmount.income.toLocaleString()}</span>
+          <span className="text-lg text-orange-600">- {totalAmount.expense.toLocaleString()}</span>
+        </div>
         <button
           type="button"
           className="customToday-Btn shadow-md"
@@ -80,8 +79,8 @@ const MonthlyCalendar = () => {
           plugins={[multiMonthPlugin]}
           initialView="multiMonthYear"
           multiMonthMaxColumns={1}
-          headerToolbar={{ left: '', right: '' }}
-          events={entries}
+          headerToolbar={false}
+          events={events}
           eventOrder={['-title']}
         />
       </div>
