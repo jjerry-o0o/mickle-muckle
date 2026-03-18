@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import {
   fetchLedgerEntriesByMonth,
   fetchLedgerEntriesByPagination,
@@ -19,10 +19,14 @@ export const useLedgerFetch = {
       queryFn: () => fetchLedgerEntriesByMonth(targetYm),
     }),
 
-  useLedgerEntriesByPagination: (pageNum: number) =>
-    useQuery({
-      queryKey: ['/ledger/month', pageNum],
-      queryFn: () => fetchLedgerEntriesByPagination(pageNum),
+  useLedgerEntriesByPagination: () =>
+    useInfiniteQuery({
+      queryKey: ['/ledger/month'],
+      queryFn: ({ pageParam = 0 }) => fetchLedgerEntriesByPagination(pageParam),
+      initialPageParam: 0,
+      getNextPageParam: lastPage => {
+        return lastPage.last ? undefined : lastPage.number + 1;
+      },
     }),
 
   useLedgerEntriesDailySum: (targetYm: string) =>

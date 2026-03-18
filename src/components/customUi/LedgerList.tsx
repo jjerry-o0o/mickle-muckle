@@ -7,20 +7,49 @@ import { usePaymentMethodFetch } from '@/hooks/usePaymentMethodFetch';
 import { clsx } from 'clsx';
 import type { category } from '@/types/category';
 import type { paymentMethod } from '@/types/paymentMethod';
+import { useEffect, useRef } from 'react';
 
 const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
 const amountTextStyle = (entryType: EntryType) => (entryType === 'E' ? 'text-orange-500' : 'text-blue-600');
 
 const LedgerList = () => {
-  const { data: entries = [] } = useLedgerFetch.useLedgerEntriesByPagination(0);
+  const {
+    data: pagingEntries,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useLedgerFetch.useLedgerEntriesByPagination();
   const { data: categories = [] } = useCategoryFetch.useCategories();
   const { data: paymentMethods = [] } = usePaymentMethodFetch.usePaymentMethods();
   const findCategory = (categoryId: number) => categories.find((item: category) => item.id === categoryId);
   const findPaymentMethod = (paymentMethodId: number) =>
     paymentMethods.find((item: paymentMethod) => item.id === paymentMethodId);
+  const entries = pagingEntries?.pages.flatMap(page => page.content) ?? [];
+  const scrollWrapRef = useRef<HTMLDivElement | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const root = scrollWrapRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLDivElement | null;
+    const target = loadMoreRef.current;
+    if (!root || !target) return;
+
+    const observer = new IntersectionObserver(
+      item => {
+        if (!item[0]?.isIntersecting) return;
+        if (!hasNextPage) return;
+        if (isFetchingNextPage) return;
+
+        fetchNextPage();
+      },
+      { root, threshold: 0 },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <div className="space-y-3">
+    <div ref={scrollWrapRef} className="h-dvh flex flex-col space-y-3 overflow-hidden">
       <div className="flex items-center justify-between">
         <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
         <button
@@ -31,7 +60,7 @@ const LedgerList = () => {
         </button>
       </div>
 
-      <ScrollArea className="h-full">
+      <ScrollArea ref={scrollWrapRef} className="h-full">
         <div className="h-full space-y-3">
           {entries?.map((entry: LedgerEntryDetail) => {
             const formattedDate = formatToKoreanDate(entry.entryDate);
@@ -66,6 +95,7 @@ const LedgerList = () => {
               </div>
             );
           })}
+          <div ref={loadMoreRef} className="h-10" />
         </div>
       </ScrollArea>
     </div>

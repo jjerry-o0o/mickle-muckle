@@ -26,9 +26,9 @@ export const fetchLedgerEntriesByMonth = async (targetYm: string): Promise<Month
   return result;
 };
 
-export const fetchLedgerEntriesByPagination = async (pageNum: number): Promise<LedgerEntryDetail[]> => {
+export const fetchLedgerEntriesByPagination = async (pageNum: number): Promise<SliceResponse<LedgerEntryDetail>> => {
   const { data } = await axiosApi.get<SliceResponse<LedgerEntryDetail>>(`/ledger/List/${pageNum}`);
-  return data.content ?? [];
+  return data;
 };
 
 export const fetchLedgerEntriesDailySum = async (targetYm: string): Promise<MonthEvents[]> => {
