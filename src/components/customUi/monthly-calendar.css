@@ -182,3 +182,28 @@
 .event-expense-border-l {
   border-left: 3px solid var(--cal-chip-dot);
 }
+
+/* 달력 > 스크롤 스냅 적용 */
+.fc-multiMonthYear-view.fc-view.fc-multimonth.fc-multimonth-singlecol.fc-scroller {
+  scroll-snap-type: y proximity;
+}
+
+.fc-multimonth-daygrid-table tr {
+  scroll-snap-align: start;
+}
+
+/* 달력 > 테이블과 행의 높이 계산 무력화 */
+.fc-multimonth-daygrid-table,
+.fc-multimonth-daygrid-table tr,
+.fc-multimonth-daygrid-table td {
+  height: auto !important;
+}
+
+/* 달력 > 각 일자칸 높이 비율 재정의 (대략 5주차 씩 보이도록) */
+.fc-multimonth-daygrid-table .fc-daygrid-day-frame {
+  aspect-ratio: 1 / 0.73 !important;
+
+  height: auto !important; /* 고정 높이 해제 */
+  min-height: 0 !important; /* 기본 최소 높이 해제 */
+}
+

@@ -128,3 +128,14 @@
 .text_vertical {
   writing-mode: sideways-lr;
 }
+
+/* 크롬, 사파리, 엣지 */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* 파이어폭스, IE */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

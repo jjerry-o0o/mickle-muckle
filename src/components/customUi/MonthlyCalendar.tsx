@@ -66,8 +66,8 @@ const MonthlyCalendar = () => {
         </button>
       </div>
       {/* 캘린더 영역 */}
-      <div className="border-2 mx-4 rounded-4xl overflow-auto mb-8 shadow-lg">
-        <div className="flex f-full bg-background border-b">
+      <div className="flex-1 border-2 mx-4 rounded-4xl overflow-auto mb-8 shadow-lg no-scrollbar">
+        <div className="flex f-full bg-background border-b shrink-0">
           {WEEK_DAYS.map(day => (
             <p key={day} className="flex flex-1 w-full h-10 items-center justify-center">
               {day}
