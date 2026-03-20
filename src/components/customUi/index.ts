@@ -4,5 +4,6 @@ import WeekBox from '@/components/customUi/weekBox';
 import MonthlyCalendar from '@/components/customUi/MonthlyCalendar';
 import IndexTab from '@/components/customUi/indexTab';
 import LedgerList from '@/components/customUi/LedgerList';
+import AddLedger from '@/components/customUi/AddLedger';
 
-export { DayText, DayBox, WeekBox, MonthlyCalendar, IndexTab, LedgerList };
+export { DayText, DayBox, WeekBox, MonthlyCalendar, IndexTab, LedgerList, AddLedger };

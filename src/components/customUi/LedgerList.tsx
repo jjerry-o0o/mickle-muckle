@@ -7,12 +7,18 @@ import { usePaymentMethodFetch } from '@/hooks/usePaymentMethodFetch';
 import { clsx } from 'clsx';
 import type { category } from '@/types/category';
 import type { paymentMethod } from '@/types/paymentMethod';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { MdAddBox } from 'react-icons/md';
+import dayjs from 'dayjs';
+import { AddLedger } from '@/components/customUi/index';
 
 const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
 const amountTextStyle = (entryType: EntryType) => (entryType === 'E' ? 'text-orange-500' : 'text-blue-600');
 
 const LedgerList = () => {
+  const [addItems, setAddItems] = useState<LedgerEntryDetail[]>([]);
+  const scrollWrapRef = useRef<HTMLDivElement | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const {
     data: pagingEntries,
     hasNextPage,
@@ -25,8 +31,26 @@ const LedgerList = () => {
   const findPaymentMethod = (paymentMethodId: number) =>
     paymentMethods.find((item: paymentMethod) => item.id === paymentMethodId);
   const entries = pagingEntries?.pages.flatMap(page => page.content) ?? [];
-  const scrollWrapRef = useRef<HTMLDivElement | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  const addItem = () => {
+    setAddItems([
+      ...addItems,
+      {
+        entryId: Date.now(),
+        entryDate: dayjs().format('YYYY-MM-DD'),
+        entryType: 'E',
+        amount: 0,
+        title: '',
+        memo: undefined,
+        categoryId: 0,
+        paymentId: 0,
+      },
+    ]);
+  };
+
+  const handleAddDataChange = (id: number, field: string, newValue: string | number) => {
+    setAddItems(prev => prev.map(item => (item.entryId === id ? { ...item, [field]: newValue } : item)));
+  };
 
   useEffect(() => {
     const root = scrollWrapRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLDivElement | null;
@@ -50,14 +74,19 @@ const LedgerList = () => {
 
   return (
     <div ref={scrollWrapRef} className="h-dvh flex flex-col space-y-3 overflow-hidden">
-      <div className="flex items-center justify-between">
-        <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
-        <button
-          type="button"
-          className="flex justify-center items-center text-2xl px-2 rounded-lg border bg-emerald-50 text-emerald-700 border-emerald-400"
-        >
-          +
-        </button>
+      <div className="flex flex-col">
+        <div className="flex  items-end justify-between mb-4">
+          <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
+          <button type="button" onClick={addItem}>
+            <MdAddBox size="28" color="var(--cal-mint)" className="mr-2" />
+          </button>
+        </div>
+        <AddLedger
+          addItems={addItems}
+          handleAddDataChange={handleAddDataChange}
+          categories={categories}
+          paymentMethods={paymentMethods}
+        />
       </div>
 
       <ScrollArea ref={scrollWrapRef} className="h-full">
@@ -67,7 +96,6 @@ const LedgerList = () => {
             const amount = `${amountPrefix(entry.entryType)}${entry.amount.toLocaleString()}원`;
             const category = findCategory(entry.categoryId);
             const paymentType = findPaymentMethod(entry.paymentId);
-            const methodType = paymentType?.methodType;
 
             return (
               <div key={entry.entryId} className="rounded-2xl border border-slate-200 p-3 shadow">
