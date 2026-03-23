@@ -8,7 +8,7 @@ import { clsx } from 'clsx';
 import type { category } from '@/types/category';
 import type { paymentMethod } from '@/types/paymentMethod';
 import { useEffect, useRef, useState } from 'react';
-import { MdAddBox } from 'react-icons/md';
+import { MdAddBox, MdCheckBox } from 'react-icons/md';
 import dayjs from 'dayjs';
 import { AddLedger } from '@/components/customUi/index';
 
@@ -75,11 +75,21 @@ const LedgerList = () => {
   return (
     <div ref={scrollWrapRef} className="h-dvh flex flex-col space-y-3 overflow-hidden">
       <div className="flex flex-col">
-        <div className="flex  items-end justify-between mb-4">
+        <div className="flex  items-end justify-between mb-4 mx-2">
           <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
-          <button type="button" onClick={addItem}>
-            <MdAddBox size="28" color="var(--cal-mint)" className="mr-2" />
-          </button>
+          {addItems.length > 0 ? (
+            <button type="button" className="flex font-bold text-[var(--cal-mint)] w-18 text-start" onClick={addItem}>
+              <span className="inline-flex items-center ">
+                <MdCheckBox size="28" color="var(--cal-mint)" className="mr-2" /> Save
+              </span>
+            </button>
+          ) : (
+            <button type="button" className="flex font-bold text-[var(--cal-mint)] w-18 text-start" onClick={addItem}>
+              <span className="inline-flex items-center ">
+                <MdAddBox size="28" color="var(--cal-mint)" className="mr-2" /> Add
+              </span>
+            </button>
+          )}
         </div>
         <AddLedger
           addItems={addItems}
