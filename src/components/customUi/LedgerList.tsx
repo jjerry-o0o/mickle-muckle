@@ -1,6 +1,6 @@
 import { ScrollArea } from '@/components/ui';
 import { formatToKoreanDate } from '@/utils/dateUtil';
-import type { EntryType, LedgerEntryDetail } from '@/types/ledger';
+import type { CreateLedgerEntry, CreateLedgerEntryDraft, EntryType, LedgerEntryDetail } from '@/types/ledger';
 import { useLedgerFetch } from '@/hooks/useLedgerFetch';
 import { useCategoryFetch } from '@/hooks/useCategoryFetch';
 import { usePaymentMethodFetch } from '@/hooks/usePaymentMethodFetch';
@@ -16,7 +16,7 @@ const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
 const amountTextStyle = (entryType: EntryType) => (entryType === 'E' ? 'text-orange-500' : 'text-blue-600');
 
 const LedgerList = () => {
-  const [addItems, setAddItems] = useState<LedgerEntryDetail[]>([]);
+  const [addLedger, setAddLedger] = useState<CreateLedgerEntryDraft | null>(null);
   const scrollWrapRef = useRef<HTMLDivElement | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const {
@@ -27,29 +27,40 @@ const LedgerList = () => {
   } = useLedgerFetch.useLedgerEntriesByPagination();
   const { data: categories = [] } = useCategoryFetch.useCategories();
   const { data: paymentMethods = [] } = usePaymentMethodFetch.usePaymentMethods();
+  const { mutateAsync } = useLedgerFetch.useLedgerEntrySave();
   const findCategory = (categoryId: number) => categories.find((item: category) => item.id === categoryId);
   const findPaymentMethod = (paymentMethodId: number) =>
     paymentMethods.find((item: paymentMethod) => item.id === paymentMethodId);
   const entries = pagingEntries?.pages.flatMap(page => page.content) ?? [];
 
   const addItem = () => {
-    setAddItems([
-      ...addItems,
-      {
-        entryId: Date.now(),
-        entryDate: dayjs().format('YYYY-MM-DD'),
-        entryType: 'E',
-        amount: 0,
-        title: '',
-        memo: undefined,
-        categoryId: 0,
-        paymentId: 0,
-      },
-    ]);
+    setAddLedger({
+      entryDate: dayjs().format('YYYY-MM-DD'),
+      entryType: 'E',
+      amount: 0,
+      title: '',
+      memo: undefined,
+      categoryId: undefined,
+      paymentId: undefined,
+    });
   };
 
-  const handleAddDataChange = (id: number, field: string, newValue: string | number) => {
-    setAddItems(prev => prev.map(item => (item.entryId === id ? { ...item, [field]: newValue } : item)));
+  const handleAddDataChange = (field: keyof LedgerEntryDetail, newValue: string | number) => {
+    setAddLedger(prev => (prev ? { ...prev, [field]: newValue } : prev));
+  };
+
+  const saveItem = async () => {
+    if (!addLedger || addLedger.categoryId == null || addLedger.paymentId == null) return;
+
+    const payload: CreateLedgerEntry = {
+      ...addLedger,
+      categoryId: addLedger.categoryId,
+      paymentId: addLedger.paymentId,
+    };
+    const ledgerId = await mutateAsync(payload);
+    if (ledgerId) {
+      setAddLedger(null);
+    }
   };
 
   useEffect(() => {
@@ -77,8 +88,8 @@ const LedgerList = () => {
       <div className="flex flex-col">
         <div className="flex  items-end justify-between mb-4 mx-2">
           <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
-          {addItems.length > 0 ? (
-            <button type="button" className="flex font-bold text-[var(--cal-mint)] w-18 text-start" onClick={addItem}>
+          {addLedger ? (
+            <button type="button" className="flex font-bold text-[var(--cal-mint)] w-18 text-start" onClick={saveItem}>
               <span className="inline-flex items-center ">
                 <MdCheckBox size="28" color="var(--cal-mint)" className="mr-2" /> Save
               </span>
@@ -91,12 +102,14 @@ const LedgerList = () => {
             </button>
           )}
         </div>
-        <AddLedger
-          addItems={addItems}
-          handleAddDataChange={handleAddDataChange}
-          categories={categories}
-          paymentMethods={paymentMethods}
-        />
+        {addLedger && (
+          <AddLedger
+            addLedger={addLedger}
+            handleAddDataChange={handleAddDataChange}
+            categories={categories}
+            paymentMethods={paymentMethods}
+          />
+        )}
       </div>
 
       <ScrollArea ref={scrollWrapRef} className="h-full">

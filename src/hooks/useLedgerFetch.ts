@@ -1,10 +1,12 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  createLedgerEntry,
   fetchLedgerEntriesByMonth,
   fetchLedgerEntriesByPagination,
   fetchLedgerEntriesDailySum,
   fetchLedgerEntry,
 } from '@/api/ledgerApi';
+import type { CreateLedgerEntry, LedgerEntryDetail } from '@/types/ledger';
 
 export const useLedgerFetch = {
   useLedgerEntry: (id: number) =>
@@ -34,4 +36,15 @@ export const useLedgerFetch = {
       queryKey: ['/ledger/month/sum', targetYm],
       queryFn: () => fetchLedgerEntriesDailySum(targetYm),
     }),
+
+  useLedgerEntrySave: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: (addLedger: CreateLedgerEntry) => createLedgerEntry(addLedger),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month'] });
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month/sum'] });
+      },
+    });
+  },
 };

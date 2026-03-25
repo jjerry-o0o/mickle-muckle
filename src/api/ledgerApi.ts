@@ -1,4 +1,10 @@
-import type { LedgerEntryAmountSum, LedgerEntryDetail, LedgerEntrySummary, LedgerMonthData } from '@/types/ledger';
+import type {
+  CreateLedgerEntry,
+  LedgerEntryAmountSum,
+  LedgerEntryDetail,
+  LedgerEntrySummary,
+  LedgerMonthData,
+} from '@/types/ledger';
 import { axiosApi } from '@/api/axiosInstans';
 import type { MonthEvents, SliceResponse } from '@/types/common';
 
@@ -53,4 +59,9 @@ export const fetchLedgerEntriesDailySum = async (targetYm: string): Promise<Ledg
       },
     })),
   };
+};
+
+export const createLedgerEntry = async (addLedger: CreateLedgerEntry): Promise<number> => {
+  const { data } = await axiosApi.post<number>(`/ledger`, addLedger);
+  return data;
 };

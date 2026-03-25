@@ -3,22 +3,37 @@ import type { MonthEvents } from '@/types/common';
 
 export type EntryType = 'E' | 'I';
 
-export interface LedgerEntry {
-  entryId: number;
+type LedgerEntryBase = {
   entryDate: string;
   entryType: EntryType;
   amount: number;
   title: string;
-  memo?: string;
+};
+
+export type LedgerEntryDetail = LedgerEntryBase & {
+  entryId: number;
   categoryId: number;
   paymentId: number;
-}
+  memo?: string;
+};
 
-export type LedgerEntryDetail = LedgerEntry;
+export type LedgerEntrySummary = LedgerEntryBase & {
+  entryId: number;
+};
 
-export type LedgerEntrySummary = Pick<LedgerEntry, 'entryId' | 'entryDate' | 'entryType' | 'amount' | 'title'>;
+export type LedgerEntryAmountSum = Pick<LedgerEntryBase, 'entryDate' | 'entryType' | 'amount'>;
 
-export type LedgerEntryAmountSum = Pick<LedgerEntry, 'entryDate' | 'entryType' | 'amount'>;
+export type CreateLedgerEntryDraft = LedgerEntryBase & {
+  categoryId?: number;
+  paymentId?: number;
+  memo?: string;
+};
+
+export type CreateLedgerEntry = LedgerEntryBase & {
+  categoryId: number;
+  paymentId: number;
+  memo?: string;
+};
 
 export interface TotalAmount {
   income: number;
