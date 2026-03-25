@@ -1,4 +1,4 @@
-const TotalAssetsPage = () => {
+const TotalPage = () => {
   return (
     <div>
       <p>Total</p>
@@ -6,4 +6,4 @@ const TotalAssetsPage = () => {
   );
 };
 
-export { TotalAssetsPage };
+export { TotalPage };

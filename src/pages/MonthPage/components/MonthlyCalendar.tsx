@@ -1,7 +1,7 @@
 import FullCalendar from '@fullcalendar/react';
 import multiMonthPlugin from '@fullcalendar/multimonth';
 
-import '@/components/customUi/monthly-calendar.css';
+import '@/pages/MonthPage/components/monthly-calendar.css';
 import { useEffect, useRef, useState } from 'react';
 import { useLedgerFetch } from '@/hooks/useLedgerFetch';
 

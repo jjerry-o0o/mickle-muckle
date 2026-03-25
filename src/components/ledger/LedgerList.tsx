@@ -10,10 +10,11 @@ import type { paymentMethod } from '@/types/paymentMethod';
 import { useEffect, useRef, useState } from 'react';
 import { MdAdd, MdCheck, MdClear } from 'react-icons/md';
 import dayjs from 'dayjs';
-import { AddLedger } from '@/components/customUi/index';
+import { AddLedger } from '@/components/customUi';
 
 const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
-const amountTextStyle = (entryType: EntryType) => (entryType === 'E' ? 'text-orange-500' : 'text-blue-600');
+const amountTextStyle = (entryType: EntryType) =>
+  entryType === 'E' ? 'text-[var(--expense)]' : 'text-[var(--income)]';
 
 const LedgerList = () => {
   const [addLedger, setAddLedger] = useState<CreateLedgerEntryDraft | null>(null);
@@ -90,29 +91,25 @@ const LedgerList = () => {
           <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
           {addLedger ? (
             <div className="flex gap-2.5">
-              <button
-                type="button"
-                className="flex font-bold text-[var(--cal-mint)] w-18 text-start"
-                onClick={saveItem}
-              >
+              <button type="button" className="flex font-bold text-[var(--income)] w-18 text-start" onClick={saveItem}>
                 <span className="inline-flex items-center ">
-                  <MdCheck size="28" color="var(--cal-mint)" className="mr-2" /> Save
+                  <MdCheck size="28" color="var(--income)" className="mr-2" /> Save
                 </span>
               </button>
               <button
                 type="button"
-                className="flex font-bold text-[var(--cal-chip-dot)] w-22 text-start"
+                className="flex font-bold text-[var(--expense)] w-22 text-start"
                 onClick={() => setAddLedger(null)}
               >
                 <span className="inline-flex items-center ">
-                  <MdClear size="28" color="var(--cal-chip-dot)" className="mr-2" /> Cancel
+                  <MdClear size="28" color="var(--expense)" className="mr-2" /> Cancel
                 </span>
               </button>
             </div>
           ) : (
-            <button type="button" className="flex font-bold text-[var(--cal-mint)] w-18 text-start" onClick={addItem}>
+            <button type="button" className="flex font-bold text-[var(--income)] w-18 text-start" onClick={addItem}>
               <span className="inline-flex items-center ">
-                <MdAdd size="28" color="var(--cal-mint)" className="mr-2" /> Add
+                <MdAdd size="28" color="var(--income)" className="mr-2" /> Add
               </span>
             </button>
           )}

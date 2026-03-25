@@ -5,16 +5,12 @@
   --cal-muted-border: #edf0f3;
   --cal-text: #2f3440;
   --cal-subtext: #8f98a6;
-  --cal-mint: #58bf96;
   --cal-mint-strong: #43ad83;
   --cal-chip-bg: #f8fafb;
-  --cal-chip-dot: #f18a3d;
 }
 
 .fc {
   background: var(--cal-bg);
-  /*border: 1px solid var(--cal-muted-border);*/
-  /*border-radius: 20px;*/
   padding: 16px;
   color: var(--cal-text);
 }
@@ -53,15 +49,15 @@
 
 .fc .fc-button-active,
 .fc .fc-button-primary:not(:disabled):active {
-  background: var(--cal-mint);
-  border-color: var(--cal-mint);
+  background: var(--income);
+  border-color: var(--income);
   color: #fff;
 }
 
 /* customToday 기본 색상 */
 .customToday-Btn {
-  background: #58bf96 !important;
-  border: 1px solid #58bf96 !important;
+  background: var(--income) !important;
+  border: 1px solid var(--income) !important;
   color: #ffffff !important;
   padding: 1px 8px;
   border-radius: 8px;
@@ -99,7 +95,7 @@
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background: var(--cal-mint);
+  background: var(--income);
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -177,10 +173,10 @@
 }
 
 .event-income-border-l {
-  border-left: 3px solid var(--cal-mint);
+  border-left: 3px solid var(--income);
 }
 .event-expense-border-l {
-  border-left: 3px solid var(--cal-chip-dot);
+  border-left: 3px solid var(--expense);
 }
 
 /* 달력 > 스크롤 스냅 적용 */
