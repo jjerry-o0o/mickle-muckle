@@ -11,8 +11,8 @@ import {
 } from '@/components/ui/select';
 import { clsx } from 'clsx';
 import { Input } from '@/components/ui';
-import type { category } from '@/types/category';
-import type { paymentMethod } from '@/types/paymentMethod';
+import type { Category } from '@/types/category';
+import type { PaymentMethod } from '@/types/paymentMethod';
 
 const LEDGER_FIELDS = {
   entryId: 'entryId',
@@ -33,8 +33,8 @@ const ENTRY_TYPE_OPTIONS: { label: string; value: EntryType }[] = [
 interface AddLedgerProps {
   addLedger: CreateLedgerEntryDraft;
   handleAddDataChange: (field: keyof LedgerEntryDetail, newValue: string | number) => void;
-  categories: category[];
-  paymentMethods: paymentMethod[];
+  categories: Category[];
+  paymentMethods: PaymentMethod[];
 }
 
 const AddLedger = ({ addLedger, handleAddDataChange, categories, paymentMethods }: AddLedgerProps) => {

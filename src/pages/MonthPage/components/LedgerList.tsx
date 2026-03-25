@@ -1,20 +1,15 @@
 import { ScrollArea } from '@/components/ui';
-import { formatToKoreanDate } from '@/utils/dateUtil';
 import type { CreateLedgerEntry, CreateLedgerEntryDraft, EntryType, LedgerEntryDetail } from '@/types/ledger';
 import { useLedgerFetch } from '@/hooks/useLedgerFetch';
 import { useCategoryFetch } from '@/hooks/useCategoryFetch';
 import { usePaymentMethodFetch } from '@/hooks/usePaymentMethodFetch';
-import { clsx } from 'clsx';
-import type { category } from '@/types/category';
-import type { paymentMethod } from '@/types/paymentMethod';
+import type { Category } from '@/types/category';
+import type { PaymentMethod } from '@/types/paymentMethod';
 import { useEffect, useRef, useState } from 'react';
 import { MdAdd, MdCheck, MdClear } from 'react-icons/md';
 import dayjs from 'dayjs';
 import AddLedger from '@/pages/MonthPage/components/AddLedger';
-
-const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
-const amountTextStyle = (entryType: EntryType) =>
-  entryType === 'E' ? 'text-[var(--expense)]' : 'text-[var(--income)]';
+import LedgerListItem from '@/pages/MonthPage/components/LedgerListItem';
 
 const LedgerList = () => {
   const [addLedger, setAddLedger] = useState<CreateLedgerEntryDraft | null>(null);
@@ -29,9 +24,9 @@ const LedgerList = () => {
   const { data: categories = [] } = useCategoryFetch.useCategories();
   const { data: paymentMethods = [] } = usePaymentMethodFetch.usePaymentMethods();
   const { mutateAsync } = useLedgerFetch.useLedgerEntrySave();
-  const findCategory = (categoryId: number) => categories.find((item: category) => item.id === categoryId);
+  const findCategory = (categoryId: number) => categories.find((item: Category) => item.id === categoryId);
   const findPaymentMethod = (paymentMethodId: number) =>
-    paymentMethods.find((item: paymentMethod) => item.id === paymentMethodId);
+    paymentMethods.find((item: PaymentMethod) => item.id === paymentMethodId);
   const entries = pagingEntries?.pages.flatMap(page => page.content) ?? [];
 
   const addItem = () => {
@@ -85,7 +80,7 @@ const LedgerList = () => {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <div ref={scrollWrapRef} className="h-dvh flex flex-col space-y-3 overflow-hidden">
+    <div className="h-dvh flex flex-col space-y-3 overflow-hidden">
       <div className="flex flex-col">
         <div className="flex  items-end justify-between mb-4 mx-2">
           <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
@@ -126,38 +121,14 @@ const LedgerList = () => {
 
       <ScrollArea ref={scrollWrapRef} className="h-full">
         <div className="h-full space-y-3">
-          {entries?.map((entry: LedgerEntryDetail) => {
-            const formattedDate = formatToKoreanDate(entry.entryDate);
-            const amount = `${amountPrefix(entry.entryType)}${entry.amount.toLocaleString()}원`;
-            const category = findCategory(entry.categoryId);
-            const paymentType = findPaymentMethod(entry.paymentId);
-
-            return (
-              <div key={entry.entryId} className="rounded-2xl border border-slate-200 p-3 shadow">
-                <div className="text-[16px]  flex items-center justify-between mb-2">
-                  <div className="flex gap-2 items-center">
-                    <p className="font-bold text-slate-900">{formattedDate}</p>
-                    <span
-                      style={{ boxShadow: `inset 0 -8px 0 0 ${category?.color || '#FEF08A'}` }}
-                      className="text-[14px]"
-                    >
-                      {category?.name}
-                    </span>
-                  </div>
-
-                  <div className="flex gap-2 items-center">
-                    <span className="text-[14px]">{paymentType?.name}</span>
-                    <p className={clsx('font-bold', amountTextStyle(entry.entryType))}>{amount}</p>
-                  </div>
-                </div>
-
-                <div className="mb-2">
-                  <span className="text-[16px] font-bold text-slate-500">{entry.title}</span>
-                  <p className="text-[14px] text-slate-500">{entry.memo}</p>
-                </div>
-              </div>
-            );
-          })}
+          {entries?.map((entry: LedgerEntryDetail) => (
+            <LedgerListItem
+              key={entry.entryId}
+              entry={entry}
+              category={findCategory(entry.categoryId)}
+              paymentType={findPaymentMethod(entry.paymentId)}
+            />
+          ))}
           <div ref={loadMoreRef} className="h-10" />
         </div>
       </ScrollArea>
