@@ -1,4 +1,5 @@
-import { MonthlyCalendar, LedgerList } from '@/components/customUi';
+import MonthlyCalendar from '@/pages/MonthPage/components/MonthlyCalendar';
+import LedgerList from '@/pages/MonthPage/components/LedgerList';
 
 const MonthPage = () => {
   return (

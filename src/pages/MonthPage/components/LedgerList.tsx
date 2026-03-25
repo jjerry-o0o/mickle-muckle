@@ -10,7 +10,7 @@ import type { paymentMethod } from '@/types/paymentMethod';
 import { useEffect, useRef, useState } from 'react';
 import { MdAdd, MdCheck, MdClear } from 'react-icons/md';
 import dayjs from 'dayjs';
-import { AddLedger } from '@/components/customUi';
+import AddLedger from '@/pages/MonthPage/components/AddLedger';
 
 const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
 const amountTextStyle = (entryType: EntryType) =>
