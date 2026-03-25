@@ -8,7 +8,7 @@ import { clsx } from 'clsx';
 import type { category } from '@/types/category';
 import type { paymentMethod } from '@/types/paymentMethod';
 import { useEffect, useRef, useState } from 'react';
-import { MdAddBox, MdCheckBox } from 'react-icons/md';
+import { MdAdd, MdCheck, MdClear } from 'react-icons/md';
 import dayjs from 'dayjs';
 import { AddLedger } from '@/components/customUi/index';
 
@@ -89,15 +89,30 @@ const LedgerList = () => {
         <div className="flex  items-end justify-between mb-4 mx-2">
           <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
           {addLedger ? (
-            <button type="button" className="flex font-bold text-[var(--cal-mint)] w-18 text-start" onClick={saveItem}>
-              <span className="inline-flex items-center ">
-                <MdCheckBox size="28" color="var(--cal-mint)" className="mr-2" /> Save
-              </span>
-            </button>
+            <div className="flex gap-2.5">
+              <button
+                type="button"
+                className="flex font-bold text-[var(--cal-mint)] w-18 text-start"
+                onClick={saveItem}
+              >
+                <span className="inline-flex items-center ">
+                  <MdCheck size="28" color="var(--cal-mint)" className="mr-2" /> Save
+                </span>
+              </button>
+              <button
+                type="button"
+                className="flex font-bold text-[var(--cal-chip-dot)] w-22 text-start"
+                onClick={() => setAddLedger(null)}
+              >
+                <span className="inline-flex items-center ">
+                  <MdClear size="28" color="var(--cal-chip-dot)" className="mr-2" /> Cancel
+                </span>
+              </button>
+            </div>
           ) : (
             <button type="button" className="flex font-bold text-[var(--cal-mint)] w-18 text-start" onClick={addItem}>
               <span className="inline-flex items-center ">
-                <MdAddBox size="28" color="var(--cal-mint)" className="mr-2" /> Add
+                <MdAdd size="28" color="var(--cal-mint)" className="mr-2" /> Add
               </span>
             </button>
           )}
