@@ -6,13 +6,14 @@ import { usePaymentMethodFetch } from '@/hooks/usePaymentMethodFetch';
 import type { Category } from '@/types/category';
 import type { PaymentMethod } from '@/types/paymentMethod';
 import { useEffect, useRef, useState } from 'react';
-import { MdAdd, MdCheck, MdClear } from 'react-icons/md';
+import { MdAdd, MdCheck, MdClear, MdEditNote, MdArrowBack } from 'react-icons/md';
 import dayjs from 'dayjs';
 import AddLedger from '@/pages/MonthPage/components/AddLedger';
 import LedgerListItem from '@/pages/MonthPage/components/LedgerListItem';
 
 const LedgerList = () => {
   const [addLedger, setAddLedger] = useState<CreateLedgerEntryDraft | null>(null);
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const scrollWrapRef = useRef<HTMLDivElement | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const {
@@ -84,29 +85,50 @@ const LedgerList = () => {
       <div className="flex flex-col">
         <div className="flex  items-end justify-between mb-4 mx-2">
           <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
-          {addLedger ? (
+          {isEditMode ? (
+            <button
+              type="button"
+              className="flex font-bold text-[var(--income)] text-start"
+              onClick={() => setIsEditMode(false)}
+            >
+              <span className="inline-flex items-center ">
+                <MdArrowBack size="28" color="var(--income)" className="mr-2" /> Back
+              </span>
+            </button>
+          ) : addLedger ? (
             <div className="flex gap-2.5">
-              <button type="button" className="flex font-bold text-[var(--income)] w-18 text-start" onClick={saveItem}>
+              <button type="button" className="flex font-bold text-[var(--income)] text-start" onClick={saveItem}>
                 <span className="inline-flex items-center ">
-                  <MdCheck size="28" color="var(--income)" className="mr-2" /> Save
+                  <MdCheck size="26" color="var(--income)" className="mr-2" /> Save
                 </span>
               </button>
               <button
                 type="button"
-                className="flex font-bold text-[var(--expense)] w-22 text-start"
+                className="flex font-bold text-[var(--expense)] text-start"
                 onClick={() => setAddLedger(null)}
               >
                 <span className="inline-flex items-center ">
-                  <MdClear size="28" color="var(--expense)" className="mr-2" /> Cancel
+                  <MdClear size="26" color="var(--expense)" className="mr-2" /> Cancel
                 </span>
               </button>
             </div>
           ) : (
-            <button type="button" className="flex font-bold text-[var(--income)] w-18 text-start" onClick={addItem}>
-              <span className="inline-flex items-center ">
-                <MdAdd size="28" color="var(--income)" className="mr-2" /> Add
-              </span>
-            </button>
+            <div className="flex gap-2.5">
+              <button type="button" className="flex font-bold text-[var(--income)] text-start" onClick={addItem}>
+                <span className="inline-flex items-center ">
+                  <MdAdd size="28" color="var(--income)" className="mr-2" /> Add
+                </span>
+              </button>
+              <button
+                type="button"
+                className="flex font-bold text-[var(--expense)] text-start"
+                onClick={() => setIsEditMode(true)}
+              >
+                <span className="inline-flex items-center ">
+                  <MdEditNote size="28" color="var(--expense)" className="mr-2" /> Edit
+                </span>
+              </button>
+            </div>
           )}
         </div>
         {addLedger && (
@@ -119,14 +141,15 @@ const LedgerList = () => {
         )}
       </div>
 
-      <ScrollArea ref={scrollWrapRef} className="h-full">
-        <div className="h-full space-y-3">
+      <ScrollArea ref={scrollWrapRef} className="h-full pr-2">
+        <div className="h-full space-y-4 p-2">
           {entries?.map((entry: LedgerEntryDetail) => (
             <LedgerListItem
               key={entry.entryId}
               entry={entry}
               category={findCategory(entry.categoryId)}
               paymentType={findPaymentMethod(entry.paymentId)}
+              isEditMode={isEditMode}
             />
           ))}
           <div ref={loadMoreRef} className="h-10" />

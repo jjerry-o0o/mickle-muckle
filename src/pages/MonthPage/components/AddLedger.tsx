@@ -58,9 +58,9 @@ const AddLedger = ({ addLedger, handleAddDataChange, categories, paymentMethods 
                   key={option.value}
                   value={option.value}
                   className={clsx(
-                    option.value === 'I' && 'data-[state=on]:bg-[var(--cal-mint)] data-[state=on]:text-white flex-1',
-                    option.value === 'E' &&
-                      'data-[state=on]:bg-[var(--cal-chip-dot)] data-[state=on]:text-white flex-1',
+                    'transition-none',
+                    option.value === 'I' && 'data-[state=on]:bg-[var(--income)] data-[state=on]:text-white flex-1',
+                    option.value === 'E' && 'data-[state=on]:bg-[var(--expense)] data-[state=on]:text-white flex-1',
                   )}
                 >
                   {option.label}
