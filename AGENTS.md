@@ -31,9 +31,9 @@
 
 ## 주요 라우트
 
-- `/` -> `src/pages/MonthPage.tsx`
-- `/total` -> `src/pages/TotalAssetsPage.tsx`
-- `/finance` -> `src/pages/FinancePage.tsx`
+- `/` -> `src/pages/MonthPage/index.tsx`
+- `/total` -> `src/pages/TotalPage/index.tsx`
+- `/finance` -> `src/pages/FinancePage/index.tsx`
 
 ## 주요 디렉터리 구조
 
@@ -108,6 +108,7 @@
 - 저장소 맥락이 부족할 때는 가정을 분명히 적는다.
 - 막히는 지점이 있으면 늦지 않게 공유한다.
 - 리뷰 요청에서는 스타일보다 버그, 회귀 가능성, 테스트 누락을 우선적으로 본다.
+- 사용자가 코드 관련 질문을 했을 때 현재 코드 스타일이 실무나 좋은 코드 컨벤션에 어긋나면, 수정된 코드나 예시 코드를 기존 스타일에 맞춰 제시하기 전에 더 권장되는 실무 기준과 방향을 먼저 안내한다.
 
 ## 저장소 문서가 있을 때
 
