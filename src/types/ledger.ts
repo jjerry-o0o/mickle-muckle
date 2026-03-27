@@ -35,6 +35,8 @@ export type CreateLedgerEntry = LedgerEntryBase & {
   memo?: string;
 };
 
+export type UpdateLedgerEntry = CreateLedgerEntry;
+
 export interface TotalAmount {
   income: number;
   expense: number;

@@ -8,7 +8,7 @@ import type { PaymentMethod } from '@/types/paymentMethod';
 import { useEffect, useRef, useState } from 'react';
 import { MdAdd, MdCheck, MdClear, MdEditNote, MdArrowBack } from 'react-icons/md';
 import dayjs from 'dayjs';
-import AddLedger from '@/pages/MonthPage/components/AddLedger';
+import LedgerEntryForm from '@/pages/MonthPage/components/LedgerEntryForm';
 import LedgerListItem from '@/pages/MonthPage/components/LedgerListItem';
 
 const LedgerList = () => {
@@ -132,9 +132,9 @@ const LedgerList = () => {
           )}
         </div>
         {addLedger && (
-          <AddLedger
-            addLedger={addLedger}
-            handleAddDataChange={handleAddDataChange}
+          <LedgerEntryForm
+            ledger={addLedger}
+            onChange={handleAddDataChange}
             categories={categories}
             paymentMethods={paymentMethods}
           />
@@ -149,6 +149,8 @@ const LedgerList = () => {
               entry={entry}
               category={findCategory(entry.categoryId)}
               paymentType={findPaymentMethod(entry.paymentId)}
+              categories={categories}
+              paymentMethods={paymentMethods}
               isEditMode={isEditMode}
             />
           ))}

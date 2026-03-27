@@ -6,8 +6,9 @@ import {
   fetchLedgerEntriesByPagination,
   fetchLedgerEntriesDailySum,
   fetchLedgerEntry,
+  updateLedgerEntry,
 } from '@/api/ledgerApi';
-import type { CreateLedgerEntry } from '@/types/ledger';
+import type { CreateLedgerEntry, UpdateLedgerEntry } from '@/types/ledger';
 
 export const useLedgerFetch = {
   useLedgerEntry: (id: number) =>
@@ -53,6 +54,17 @@ export const useLedgerFetch = {
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: (id: number) => deleteLedgerEntry(id),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month'] });
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month/sum'] });
+      },
+    });
+  },
+
+  useLedgerEntryUpdate: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: ({ id, ledger }: { id: number; ledger: UpdateLedgerEntry }) => updateLedgerEntry(id, ledger),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['/ledger/month'] });
         queryClient.invalidateQueries({ queryKey: ['/ledger/month/sum'] });
