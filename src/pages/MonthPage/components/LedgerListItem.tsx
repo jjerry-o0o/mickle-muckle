@@ -5,6 +5,8 @@ import type { PaymentMethod } from '@/types/paymentMethod';
 import { formatToKoreanDate } from '@/utils/dateUtil';
 import { ButtonGroup, ButtonGroupSeparator } from '@/components/ui/button-group';
 import { Button } from '@/components/ui';
+import { useState } from 'react';
+import { useLedgerFetch } from '@/hooks/useLedgerFetch';
 
 interface LedgerListItemProps {
   key: number;
@@ -15,11 +17,23 @@ interface LedgerListItemProps {
 }
 
 const LedgerListItem = ({ entry, category, paymentType, isEditMode }: LedgerListItemProps) => {
+  const [isDeleteConfirming, setIsDeleteConfirming] = useState<boolean>(false);
+  const { mutateAsync: deleteLedgerEntry, isPending } = useLedgerFetch.useLedgerEntryDelete();
   const formattedDate = formatToKoreanDate(entry.entryDate);
   const amountTextStyle = (entryType: EntryType) =>
     entryType === 'E' ? 'text-[var(--expense)]' : 'text-[var(--income)]';
   const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
   const amount = `${amountPrefix(entry.entryType)}${entry.amount.toLocaleString()}원`;
+
+  const handleDeleteButtonAction = async () => {
+    if (!isDeleteConfirming) {
+      setIsDeleteConfirming(true);
+      return;
+    }
+
+    await deleteLedgerEntry(entry.entryId);
+    setIsDeleteConfirming(false);
+  };
 
   return (
     <div
@@ -50,17 +64,20 @@ const LedgerListItem = ({ entry, category, paymentType, isEditMode }: LedgerList
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 border-[var(--income)] text-[var(--income)] font-bold hover:bg-[var(--income)] hover:text-white "
+              className={`font-bold hover:text-white ${isDeleteConfirming ? 'w-[30%] border-[var(--income-deep)] text-[var(--income-deep)] hover:bg-[var(--income-deep)]' : 'w-[50%] border-[var(--income)] text-[var(--income)] hover:bg-[var(--income)]'}`}
+              onClick={() => setIsDeleteConfirming(false)}
             >
-              Edit
+              {isDeleteConfirming ? 'Cancel Delete' : 'Edit'}
             </Button>
             <ButtonGroupSeparator />
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 border-[var(--expense)] text-[var(--expense)] font-bold hover:bg-[var(--expense)] hover:text-white "
+              disabled={isPending}
+              className={`flex-1 font-bold hover:text-white ${isDeleteConfirming ? 'w-[70%] border-[var(--expense-deep)] text-[var(--expense-deep)]  hover:bg-[var(--expense-deep)]' : 'w-[50%] border-[var(--expense)] text-[var(--expense)] hover:bg-[var(--expense)]'}`}
+              onClick={handleDeleteButtonAction}
             >
-              Delete
+              {isDeleteConfirming ? 'Confirm Delete' : 'Delete'}
             </Button>
           </ButtonGroup>
         </div>

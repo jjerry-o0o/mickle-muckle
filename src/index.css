@@ -84,7 +84,11 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   --expense: #f18a3d;
+  --expense-deep: #f35c0d;
+
   --income: #58bf96;
+  --income-deep: #06a172;
+
 }
 
 .dark {

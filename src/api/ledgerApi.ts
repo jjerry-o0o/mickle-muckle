@@ -65,3 +65,7 @@ export const createLedgerEntry = async (addLedger: CreateLedgerEntry): Promise<n
   const { data } = await axiosApi.post<number>(`/ledger`, addLedger);
   return data;
 };
+
+export const deleteLedgerEntry = async (id: number): Promise<void> => {
+  await axiosApi.delete(`/ledger/${id}`);
+};
