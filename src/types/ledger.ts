@@ -14,7 +14,7 @@ export type LedgerEntryDetail = LedgerEntryBase & {
   entryId: number;
   categoryId: number;
   paymentId: number;
-  memo?: string;
+  memo?: string | null;
 };
 
 export type LedgerEntrySummary = LedgerEntryBase & {
@@ -26,13 +26,13 @@ export type LedgerEntryAmountSum = Pick<LedgerEntryBase, 'entryDate' | 'entryTyp
 export type CreateLedgerEntryDraft = LedgerEntryBase & {
   categoryId?: number;
   paymentId?: number;
-  memo?: string;
+  memo?: string | null;
 };
 
 export type CreateLedgerEntry = LedgerEntryBase & {
   categoryId: number;
   paymentId: number;
-  memo?: string;
+  memo?: string | null;
 };
 
 export type UpdateLedgerEntry = CreateLedgerEntry;
