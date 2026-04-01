@@ -10,6 +10,7 @@ import { MdAdd, MdCheck, MdClear, MdEditNote, MdArrowBack } from 'react-icons/md
 import dayjs from 'dayjs';
 import LedgerEntryForm from '@/pages/MonthPage/components/LedgerEntryForm';
 import LedgerListItem from '@/pages/MonthPage/components/LedgerListItem';
+import ListHeaderButton from '@/pages/MonthPage/components/ListHeaderButton';
 
 const LedgerList = () => {
   const [addLedger, setAddLedger] = useState<CreateLedgerEntryDraft | null>(null);
@@ -85,50 +86,55 @@ const LedgerList = () => {
       <div className="flex flex-col">
         <div className="flex  items-end justify-between mb-4 mx-2">
           <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
-          {isEditMode ? (
-            <button
-              type="button"
-              className="flex font-bold text-[var(--income)] text-start"
-              onClick={() => setIsEditMode(false)}
-            >
-              <span className="inline-flex items-center ">
-                <MdArrowBack size="28" color="var(--income)" className="mr-2" /> Back
-              </span>
-            </button>
-          ) : addLedger ? (
+          {isEditMode && !addLedger && (
+            <ListHeaderButton
+              buttons={[
+                {
+                  label: 'Back',
+                  onClick: () => setIsEditMode(false),
+                  icon: <MdArrowBack size="28" />,
+                  color: '--income',
+                },
+              ]}
+            />
+          )}
+          {!isEditMode && !addLedger && (
             <div className="flex gap-2.5">
-              <button type="button" className="flex font-bold text-[var(--income)] text-start" onClick={saveItem}>
-                <span className="inline-flex items-center ">
-                  <MdCheck size="26" color="var(--income)" className="mr-2" /> Save
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex font-bold text-[var(--expense)] text-start"
-                onClick={() => setAddLedger(null)}
-              >
-                <span className="inline-flex items-center ">
-                  <MdClear size="26" color="var(--expense)" className="mr-2" /> Cancel
-                </span>
-              </button>
+              <ListHeaderButton
+                buttons={[
+                  {
+                    label: 'Add',
+                    onClick: addItem,
+                    icon: <MdAdd size="28" />,
+                    color: '--income',
+                  },
+                  {
+                    label: 'Edit',
+                    onClick: () => setIsEditMode(true),
+                    icon: <MdEditNote size="28" />,
+                    color: '--expense',
+                  },
+                ]}
+              />
             </div>
-          ) : (
-            <div className="flex gap-2.5">
-              <button type="button" className="flex font-bold text-[var(--income)] text-start" onClick={addItem}>
-                <span className="inline-flex items-center ">
-                  <MdAdd size="28" color="var(--income)" className="mr-2" /> Add
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex font-bold text-[var(--expense)] text-start"
-                onClick={() => setIsEditMode(true)}
-              >
-                <span className="inline-flex items-center ">
-                  <MdEditNote size="28" color="var(--expense)" className="mr-2" /> Edit
-                </span>
-              </button>
-            </div>
+          )}
+          {addLedger && (
+            <ListHeaderButton
+              buttons={[
+                {
+                  label: 'Save',
+                  onClick: saveItem,
+                  icon: <MdCheck size="26" />,
+                  color: '--income',
+                },
+                {
+                  label: 'Cancel',
+                  onClick: () => setAddLedger(null),
+                  icon: <MdClear size="26" />,
+                  color: '--expense',
+                },
+              ]}
+            />
           )}
         </div>
         {addLedger && (
