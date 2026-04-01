@@ -12,9 +12,25 @@ import LedgerEntryForm from '@/pages/MonthPage/components/LedgerEntryForm';
 import LedgerListItem from '@/pages/MonthPage/components/LedgerListItem';
 import ListHeaderButton from '@/pages/MonthPage/components/ListHeaderButton';
 
+type listModePhase = 'none' | 'select' | 'editing' | 'adding';
+
+interface ListModeState {
+  phase: listModePhase;
+  editingEntryId: number | null;
+  formLedger: CreateLedgerEntryDraft | null;
+}
+
 const LedgerList = () => {
   const [addLedger, setAddLedger] = useState<CreateLedgerEntryDraft | null>(null);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [editingEntryId, setEditingEntryId] = useState<number | null>(null);
+
+  const [listModeState, setListModeState] = useState<ListModeState>({
+    phase: 'none',
+    editingEntryId: null,
+    formLedger: null,
+  });
+
   const scrollWrapRef = useRef<HTMLDivElement | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const {
@@ -25,26 +41,57 @@ const LedgerList = () => {
   } = useLedgerFetch.useLedgerEntriesByPagination();
   const { data: categories = [] } = useCategoryFetch.useCategories();
   const { data: paymentMethods = [] } = usePaymentMethodFetch.usePaymentMethods();
-  const { mutateAsync } = useLedgerFetch.useLedgerEntrySave();
+  const { mutateAsync: createLedgerEntry } = useLedgerFetch.useLedgerEntrySave();
+  const { mutateAsync: updateLedgerEntry } = useLedgerFetch.useLedgerEntryUpdate();
   const findCategory = (categoryId: number) => categories.find((item: Category) => item.id === categoryId);
   const findPaymentMethod = (paymentMethodId: number) =>
     paymentMethods.find((item: PaymentMethod) => item.id === paymentMethodId);
   const entries = pagingEntries?.pages.flatMap(page => page.content) ?? [];
 
   const addItem = () => {
-    setAddLedger({
-      entryDate: dayjs().format('YYYY-MM-DD'),
-      entryType: 'E',
-      amount: 0,
-      title: '',
-      memo: undefined,
-      categoryId: undefined,
-      paymentId: undefined,
+    setListModeState({
+      phase: 'adding',
+      editingEntryId: null,
+      formLedger: {
+        entryDate: dayjs().format('YYYY-MM-DD'),
+        entryType: 'E',
+        amount: 0,
+        title: '',
+        memo: undefined,
+        categoryId: undefined,
+        paymentId: undefined,
+      },
+    });
+  };
+
+  const startEdit = (entry: LedgerEntryDetail) => {
+    setListModeState({
+      phase: 'editing',
+      editingEntryId: entry.entryId,
+      formLedger: {
+        entryDate: entry.entryDate,
+        entryType: entry.entryType,
+        amount: entry.amount,
+        title: entry.title,
+        memo: entry.memo,
+        categoryId: entry.categoryId,
+        paymentId: entry.paymentId,
+      },
     });
   };
 
   const handleAddDataChange = (field: keyof LedgerEntryDetail, newValue: string | number) => {
-    setAddLedger(prev => (prev ? { ...prev, [field]: newValue } : prev));
+    setListModeState(prev => {
+      if (!prev.formLedger) return prev;
+
+      return {
+        ...prev,
+        formLedger: {
+          ...prev.formLedger,
+          [field]: newValue,
+        },
+      };
+    });
   };
 
   const saveItem = async () => {
@@ -55,9 +102,17 @@ const LedgerList = () => {
       categoryId: addLedger.categoryId,
       paymentId: addLedger.paymentId,
     };
-    const ledgerId = await mutateAsync(payload);
+
+    const ledgerId = editingEntryId
+      ? await updateLedgerEntry({ id: editingEntryId, ledger: payload })
+      : await createLedgerEntry(payload);
+
     if (ledgerId) {
-      setAddLedger(null);
+      setListModeState(prev => ({
+        phase: prev.phase === 'editing' ? 'select' : 'none',
+        editingEntryId: null,
+        formLedger: null,
+      }));
     }
   };
 
@@ -86,7 +141,7 @@ const LedgerList = () => {
       <div className="flex flex-col">
         <div className="flex  items-end justify-between mb-4 mx-2">
           <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
-          {isEditMode && !addLedger && (
+          {listModeState.phase === 'select' && (
             <ListHeaderButton
               buttons={[
                 {
@@ -98,27 +153,25 @@ const LedgerList = () => {
               ]}
             />
           )}
-          {!isEditMode && !addLedger && (
-            <div className="flex gap-2.5">
-              <ListHeaderButton
-                buttons={[
-                  {
-                    label: 'Add',
-                    onClick: addItem,
-                    icon: <MdAdd size="28" />,
-                    color: '--income',
-                  },
-                  {
-                    label: 'Edit',
-                    onClick: () => setIsEditMode(true),
-                    icon: <MdEditNote size="28" />,
-                    color: '--expense',
-                  },
-                ]}
-              />
-            </div>
+          {listModeState.phase === 'none' && (
+            <ListHeaderButton
+              buttons={[
+                {
+                  label: 'Add',
+                  onClick: addItem,
+                  icon: <MdAdd size="28" />,
+                  color: '--income',
+                },
+                {
+                  label: 'Edit',
+                  onClick: () => setListModeState(prev => ({ ...prev, phase: 'select' })),
+                  icon: <MdEditNote size="28" />,
+                  color: '--expense',
+                },
+              ]}
+            />
           )}
-          {addLedger && (
+          {(listModeState.phase === 'editing' || listModeState.phase === 'adding') && (
             <ListHeaderButton
               buttons={[
                 {
@@ -129,7 +182,13 @@ const LedgerList = () => {
                 },
                 {
                   label: 'Cancel',
-                  onClick: () => setAddLedger(null),
+                  onClick: () => {
+                    setListModeState(prev => ({
+                      phase: prev.phase === 'editing' ? 'select' : 'none',
+                      editingEntryId: null,
+                      formLedger: null,
+                    }));
+                  },
                   icon: <MdClear size="26" />,
                   color: '--expense',
                 },
@@ -137,9 +196,9 @@ const LedgerList = () => {
             />
           )}
         </div>
-        {addLedger && (
+        {listModeState.formLedger && (
           <LedgerEntryForm
-            ledger={addLedger}
+            ledger={listModeState.formLedger}
             onChange={handleAddDataChange}
             categories={categories}
             paymentMethods={paymentMethods}
@@ -155,9 +214,9 @@ const LedgerList = () => {
               entry={entry}
               category={findCategory(entry.categoryId)}
               paymentType={findPaymentMethod(entry.paymentId)}
-              categories={categories}
-              paymentMethods={paymentMethods}
               isEditMode={isEditMode}
+              startEdit={startEdit}
+              editingEntryId={editingEntryId}
             />
           ))}
           <div ref={loadMoreRef} className="h-10" />

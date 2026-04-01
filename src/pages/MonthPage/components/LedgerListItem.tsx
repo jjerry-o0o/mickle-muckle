@@ -7,74 +7,33 @@ import { ButtonGroup, ButtonGroupSeparator } from '@/components/ui/button-group'
 import { Button } from '@/components/ui';
 import { useState } from 'react';
 import { useLedgerFetch } from '@/hooks/useLedgerFetch';
-import LedgerEntryForm from '@/pages/MonthPage/components/LedgerEntryForm';
 
 interface LedgerListItemProps {
   key: number;
   entry: LedgerEntryDetail;
   category: Category | undefined;
   paymentType: PaymentMethod | undefined;
-  categories?: Category[];
-  paymentMethods?: PaymentMethod[];
   isEditMode: boolean;
+  startEdit: (entry: LedgerEntryDetail) => void;
+  editingEntryId: number | null;
 }
 
 const LedgerListItem = ({
   entry,
   category,
   paymentType,
-  categories = [],
-  paymentMethods = [],
   isEditMode,
+  startEdit,
+  editingEntryId,
 }: LedgerListItemProps) => {
   const [isDeleteConfirming, setIsDeleteConfirming] = useState<boolean>(false);
-  const [editLedger, setEditLedger] = useState<CreateLedgerEntryDraft | null>(null);
-  const { mutateAsync: updateLedgerEntry, isPending: isUpdatePending } = useLedgerFetch.useLedgerEntryUpdate();
   const { mutateAsync: deleteLedgerEntry, isPending } = useLedgerFetch.useLedgerEntryDelete();
+
   const formattedDate = formatToKoreanDate(entry.entryDate);
   const amountTextStyle = (entryType: EntryType) =>
     entryType === 'E' ? 'text-[var(--expense)]' : 'text-[var(--income)]';
   const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
   const amount = `${amountPrefix(entry.entryType)}${entry.amount.toLocaleString()}원`;
-
-  const startEdit = () => {
-    setEditLedger({
-      entryDate: entry.entryDate,
-      entryType: entry.entryType,
-      amount: entry.amount,
-      title: entry.title,
-      memo: entry.memo,
-      categoryId: entry.categoryId,
-      paymentId: entry.paymentId,
-    });
-  };
-
-  const handleEditDataChange = (field: keyof LedgerEntryDetail, newValue: string | number) => {
-    setEditLedger(prev => (prev ? { ...prev, [field]: newValue } : prev));
-  };
-
-  const handleCancelEdit = () => {
-    setEditLedger(null);
-  };
-
-  const handleSaveEdit = async () => {
-    if (!editLedger || editLedger.categoryId == null || editLedger.paymentId == null) return;
-
-    await updateLedgerEntry({
-      id: entry.entryId,
-      ledger: {
-        entryDate: editLedger.entryDate,
-        entryType: editLedger.entryType,
-        amount: editLedger.amount,
-        title: editLedger.title,
-        memo: editLedger.memo,
-        categoryId: editLedger.categoryId,
-        paymentId: editLedger.paymentId,
-      },
-    });
-
-    setEditLedger(null);
-  };
 
   const handleDeleteButtonAction = async () => {
     if (!isDeleteConfirming) {
@@ -85,41 +44,6 @@ const LedgerListItem = ({
     await deleteLedgerEntry(entry.entryId);
     setIsDeleteConfirming(false);
   };
-
-  if (editLedger) {
-    return (
-      <div className="space-y-3">
-        <LedgerEntryForm
-          ledger={editLedger}
-          onChange={handleEditDataChange}
-          categories={categories}
-          paymentMethods={paymentMethods}
-        />
-
-        <ButtonGroup className="flex w-full">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={isUpdatePending}
-            className="flex-1 border-[var(--income)] text-[var(--income)] font-bold hover:bg-[var(--income)] hover:text-white"
-            onClick={handleSaveEdit}
-          >
-            {isUpdatePending ? 'Saving...' : 'Save'}
-          </Button>
-          <ButtonGroupSeparator />
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={isUpdatePending}
-            className="flex-1 border-[var(--expense)] text-[var(--expense)] font-bold hover:bg-[var(--expense)] hover:text-white"
-            onClick={handleCancelEdit}
-          >
-            Cancel
-          </Button>
-        </ButtonGroup>
-      </div>
-    );
-  }
 
   return (
     <div
@@ -144,7 +68,7 @@ const LedgerListItem = ({
         <p className="text-[14px] text-slate-500">{entry.memo}</p>
       </div>
 
-      {isEditMode && (
+      {isEditMode && !editingEntryId && (
         <div className="">
           <ButtonGroup className="flex w-full">
             <Button
@@ -156,8 +80,7 @@ const LedgerListItem = ({
                   setIsDeleteConfirming(false);
                   return;
                 }
-
-                startEdit();
+                startEdit(entry);
               }}
             >
               {isDeleteConfirming ? 'Cancel Delete' : 'Edit'}
