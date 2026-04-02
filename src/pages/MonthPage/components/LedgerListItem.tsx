@@ -47,7 +47,7 @@ const LedgerListItem = ({
 
   return (
     <div
-      className={`rounded-2xl border border-slate-200 p-3 shadow ${isSelecting && 'hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_10px_10px_rgba(15,23,42,0.14)] hover:ring-1 hover:ring-slate-300'}`}
+      className={`rounded-2xl border border-slate-200 p-3 shadow ${isSelecting && 'hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_10px_10px_rgba(15,23,42,0.14)] hover:ring-1 hover:ring-slate-300'} ${editingEntryId === entry.entryId && 'bg-[var(--background2)]'}`}
     >
       <div className="text-[16px]  flex items-center justify-between mb-2">
         <div className="flex gap-2 items-center">

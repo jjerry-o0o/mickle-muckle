@@ -40,9 +40,9 @@ const LedgerEntryForm = ({ ledger, onChange, categories, paymentMethods }: Ledge
   const parseAmountInput = (value: string) => Number(value.replace(/\D/g, '').replace(/^0+/, ''));
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 pb-4 border-b">
       <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 p-3 shadow">
-        <div className="grid grid-cols-[20%_25%_1fr_25%] gap-3">
+        <div className="grid grid-cols-[20%_25%_1fr_25%] gap-3 ">
           <ToggleGroup
             type="single"
             variant="outline"
