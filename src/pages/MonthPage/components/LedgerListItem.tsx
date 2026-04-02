@@ -13,7 +13,7 @@ interface LedgerListItemProps {
   entry: LedgerEntryDetail;
   category: Category | undefined;
   paymentType: PaymentMethod | undefined;
-  isEditMode: boolean;
+  isSelecting: boolean;
   startEdit: (entry: LedgerEntryDetail) => void;
   editingEntryId: number | null;
 }
@@ -22,7 +22,7 @@ const LedgerListItem = ({
   entry,
   category,
   paymentType,
-  isEditMode,
+  isSelecting,
   startEdit,
   editingEntryId,
 }: LedgerListItemProps) => {
@@ -47,7 +47,7 @@ const LedgerListItem = ({
 
   return (
     <div
-      className={`rounded-2xl border border-slate-200 p-3 shadow ${isEditMode && 'hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_10px_10px_rgba(15,23,42,0.14)] hover:ring-1 hover:ring-slate-300'}`}
+      className={`rounded-2xl border border-slate-200 p-3 shadow ${isSelecting && 'hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_10px_10px_rgba(15,23,42,0.14)] hover:ring-1 hover:ring-slate-300'}`}
     >
       <div className="text-[16px]  flex items-center justify-between mb-2">
         <div className="flex gap-2 items-center">
@@ -68,7 +68,7 @@ const LedgerListItem = ({
         <p className="text-[14px] text-slate-500">{entry.memo}</p>
       </div>
 
-      {isEditMode && !editingEntryId && (
+      {isSelecting && !editingEntryId && (
         <div className="">
           <ButtonGroup className="flex w-full">
             <Button

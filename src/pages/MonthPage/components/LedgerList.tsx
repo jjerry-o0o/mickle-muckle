@@ -21,10 +21,6 @@ interface ListModeState {
 }
 
 const LedgerList = () => {
-  const [addLedger, setAddLedger] = useState<CreateLedgerEntryDraft | null>(null);
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [editingEntryId, setEditingEntryId] = useState<number | null>(null);
-
   const [listModeState, setListModeState] = useState<ListModeState>({
     phase: 'none',
     editingEntryId: null,
@@ -95,12 +91,13 @@ const LedgerList = () => {
   };
 
   const saveItem = async () => {
-    if (!addLedger || addLedger.categoryId == null || addLedger.paymentId == null) return;
+    const { formLedger, editingEntryId } = listModeState;
+    if (!formLedger || formLedger.categoryId == null || formLedger.paymentId == null) return;
 
     const payload: CreateLedgerEntry = {
-      ...addLedger,
-      categoryId: addLedger.categoryId,
-      paymentId: addLedger.paymentId,
+      ...formLedger,
+      categoryId: formLedger.categoryId,
+      paymentId: formLedger.paymentId,
     };
 
     const ledgerId = editingEntryId
@@ -146,7 +143,7 @@ const LedgerList = () => {
               buttons={[
                 {
                   label: 'Back',
-                  onClick: () => setIsEditMode(false),
+                  onClick: () => setListModeState({ phase: 'none', editingEntryId: null, formLedger: null }),
                   icon: <MdArrowBack size="28" />,
                   color: '--income',
                 },
@@ -214,9 +211,9 @@ const LedgerList = () => {
               entry={entry}
               category={findCategory(entry.categoryId)}
               paymentType={findPaymentMethod(entry.paymentId)}
-              isEditMode={isEditMode}
+              isSelecting={listModeState.phase === 'select'}
               startEdit={startEdit}
-              editingEntryId={editingEntryId}
+              editingEntryId={listModeState.editingEntryId}
             />
           ))}
           <div ref={loadMoreRef} className="h-10" />
