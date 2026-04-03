@@ -19,8 +19,11 @@ interface ListModeState {
   editingEntryId: number | null;
   formLedger: CreateLedgerEntryDraft | null;
 }
+interface LedgerListProps {
+  selectedDate: string | null;
+}
 
-const LedgerList = () => {
+const LedgerList = ({ selectedDate }: LedgerListProps) => {
   const [listModeState, setListModeState] = useState<ListModeState>({
     phase: 'none',
     editingEntryId: null,
@@ -35,6 +38,7 @@ const LedgerList = () => {
     isFetchingNextPage,
     fetchNextPage,
   } = useLedgerFetch.useLedgerEntriesByPagination();
+  const { data: dateEntries, isPending: isDateEntriesPending } = useLedgerFetch.useLedgerEntriesByDate(selectedDate);
   const { data: categories = [] } = useCategoryFetch.useCategories();
   const { data: paymentMethods = [] } = usePaymentMethodFetch.usePaymentMethods();
   const { mutateAsync: createLedgerEntry } = useLedgerFetch.useLedgerEntrySave();
@@ -43,6 +47,7 @@ const LedgerList = () => {
   const findPaymentMethod = (paymentMethodId: number) =>
     paymentMethods.find((item: PaymentMethod) => item.id === paymentMethodId);
   const entries = pagingEntries?.pages.flatMap(page => page.content) ?? [];
+  const displayEntries = selectedDate ? dateEntries : entries;
 
   const addItem = () => {
     setListModeState({
@@ -205,7 +210,17 @@ const LedgerList = () => {
 
       <ScrollArea ref={scrollWrapRef} className="h-full pr-2">
         <div className="h-full space-y-4 p-2">
-          {entries?.map((entry: LedgerEntryDetail) => (
+          {selectedDate !== null && isDateEntriesPending && (
+            <div className="flex flex-col items-center justify-center py-8 text-slate-400">
+              <div className="mb-2 h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-[var(--income)]" />
+            </div>
+          )}
+          {selectedDate && dateEntries?.length === 0 && (
+            <div className="text-[var(--income-deep)] text-center mt-14">
+              {dayjs(selectedDate).format('M월 D일')}은 수입/지출이 발생하지 않았습니다.
+            </div>
+          )}
+          {displayEntries?.map((entry: LedgerEntryDetail) => (
             <LedgerListItem
               key={entry.entryId}
               entry={entry}

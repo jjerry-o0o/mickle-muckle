@@ -75,3 +75,8 @@ export const updateLedgerEntry = async (id: number, ledger: UpdateLedgerEntry): 
 export const deleteLedgerEntry = async (id: number): Promise<void> => {
   await axiosApi.delete(`/ledger/${id}`);
 };
+
+export const fetchLedgerEntriesByDate = async (targetDate: string): Promise<LedgerEntryDetail[]> => {
+  const { data } = await axiosApi.get<LedgerEntryDetail[]>(`/ledger/date/${targetDate}`);
+  return data;
+};

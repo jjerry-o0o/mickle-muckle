@@ -1,5 +1,6 @@
 import FullCalendar from '@fullcalendar/react';
 import multiMonthPlugin from '@fullcalendar/multimonth';
+import interactionPlugin from '@fullcalendar/interaction';
 
 import '@/pages/MonthPage/components/monthly-calendar.css';
 import { useEffect, useRef, useState } from 'react';
@@ -7,7 +8,11 @@ import { useLedgerFetch } from '@/hooks/useLedgerFetch';
 
 const WEEK_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-const MonthlyCalendar = () => {
+interface MonthlyCalendarProps {
+  selectedDate: string | null;
+  onDateClick: (date: string) => void;
+}
+const MonthlyCalendar = ({ selectedDate, onDateClick }: MonthlyCalendarProps) => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const calendarRef = useRef<FullCalendar | null>(null);
   const [currentYm, setCurrentYm] = useState('');
@@ -48,14 +53,25 @@ const MonthlyCalendar = () => {
     monthCards.forEach(card => observer.observe(card));
   }, []);
 
+  useEffect(() => {
+    const root = wrapRef.current;
+    const selectedDayCell = root?.querySelector(`[data-date="${selectedDate}"]`) as HTMLElement;
+    root?.querySelectorAll('.fc-day-selected').forEach(element => {
+      element.classList.remove('fc-day-selected');
+    });
+    if (selectedDate) {
+      selectedDayCell.classList.add('fc-day-selected');
+    }
+  }, [selectedDate]);
+
   return (
     <div ref={wrapRef} className="flex flex-col h-full justify-center">
       {/* 캘린더 헤더 영역 */}
       <div className="flex justify-between mt-8 mx-4 px-2 pb-4 shrink-0">
         <div className="flex gap-2 items-baseline">
           <p className="customTitle">{currentYm}</p>
-          <span className="text-lg text-emerald-500">+ {totalAmount.income.toLocaleString()}</span>
-          <span className="text-lg text-orange-600">- {totalAmount.expense.toLocaleString()}</span>
+          <span className="text-lg text-[var(--income-deep)]">+ {totalAmount.income.toLocaleString()}</span>
+          <span className="text-lg text-[var(--expense-deep)]">- {totalAmount.expense.toLocaleString()}</span>
         </div>
         <button
           type="button"
@@ -76,12 +92,13 @@ const MonthlyCalendar = () => {
         </div>
         <FullCalendar
           ref={calendarRef}
-          plugins={[multiMonthPlugin]}
+          plugins={[multiMonthPlugin, interactionPlugin]}
           initialView="multiMonthYear"
           multiMonthMaxColumns={1}
           headerToolbar={false}
           events={events}
           eventOrder={['-title']}
+          dateClick={info => onDateClick(info.dateStr)}
         />
       </div>
     </div>

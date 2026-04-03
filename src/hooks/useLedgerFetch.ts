@@ -2,6 +2,7 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tansta
 import {
   createLedgerEntry,
   deleteLedgerEntry,
+  fetchLedgerEntriesByDate,
   fetchLedgerEntriesByMonth,
   fetchLedgerEntriesByPagination,
   fetchLedgerEntriesDailySum,
@@ -71,4 +72,11 @@ export const useLedgerFetch = {
       },
     });
   },
+
+  useLedgerEntriesByDate: (targetDate: string | null) =>
+    useQuery({
+      queryKey: ['/ledger/date', targetDate],
+      queryFn: () => fetchLedgerEntriesByDate(targetDate as string),
+      enabled: targetDate !== null,
+    }),
 };

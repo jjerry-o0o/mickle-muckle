@@ -206,3 +206,19 @@
 .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
     height: 100%;
 }
+
+/* 달력 > 일자칸 hover 스타일 추가 */
+.fc-daygrid-day-frame.fc-scrollgrid-sync-inner:hover {
+  background: var(--background2);
+}
+
+/* 달력 > 일자칸에 수입/지출 텍스트 영역 클릭해도 달력의 dateClick() 호출되도록 */
+.fc-daygrid-day-events {
+  pointer-events: none;
+}
+
+/* 달력 > 일자칸 클릭한 경우 스타일 추가 */
+.fc-day-selected .fc-daygrid-day-frame {
+    border: 1px solid var(--income-light);
+    box-shadow: 0 0 8px var(--income-light);
+}
