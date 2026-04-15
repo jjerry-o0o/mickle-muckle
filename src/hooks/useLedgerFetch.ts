@@ -24,7 +24,7 @@ export const useLedgerFetch = {
       queryFn: () => fetchLedgerEntriesByMonth(targetYm),
     }),
 
-  useLedgerEntriesByPagination: () =>
+  useLedgerEntriesByPagination: (enabled: boolean) =>
     useInfiniteQuery({
       queryKey: ['/ledger/month'],
       queryFn: ({ pageParam = 0 }) => fetchLedgerEntriesByPagination(pageParam),
@@ -32,6 +32,7 @@ export const useLedgerFetch = {
       getNextPageParam: lastPage => {
         return lastPage.last ? undefined : lastPage.number + 1;
       },
+      enabled: enabled,
     }),
 
   useLedgerEntriesDailySum: (targetYm: string) =>

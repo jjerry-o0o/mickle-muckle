@@ -37,7 +37,7 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useLedgerFetch.useLedgerEntriesByPagination();
+  } = useLedgerFetch.useLedgerEntriesByPagination(!selectedDate);
   const { data: dateEntries, isPending: isDateEntriesPending } = useLedgerFetch.useLedgerEntriesByDate(selectedDate);
   const { data: categories = [] } = useCategoryFetch.useCategories();
   const { data: paymentMethods = [] } = usePaymentMethodFetch.usePaymentMethods();
@@ -119,6 +119,7 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
   };
 
   useEffect(() => {
+    if (selectedDate) return;
     const root = scrollWrapRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLDivElement | null;
     const target = loadMoreRef.current;
     if (!root || !target) return;
@@ -136,7 +137,7 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
 
     observer.observe(target);
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [selectedDate, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
     <div className="h-dvh flex flex-col space-y-3 overflow-hidden">
@@ -231,7 +232,7 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
               editingEntryId={listModeState.editingEntryId}
             />
           ))}
-          <div ref={loadMoreRef} className="h-10" />
+          {!selectedDate && <div ref={loadMoreRef} className="h-10" />}
         </div>
       </ScrollArea>
     </div>
