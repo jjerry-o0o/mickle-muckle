@@ -18,7 +18,7 @@ const MonthPage = () => {
       <div className="flex flex-col w-[70%] h-full">
         <MonthlyCalendar onDateClick={handleDateClick} selectedDate={selectedDate} />
       </div>
-      <div className="flex flex-col w-[30%] min-w-[480px] border border-black p-4 bg-background">
+      <div className="flex flex-col w-[30%] min-w-[480px]">
         <LedgerList selectedDate={selectedDate} />
       </div>
     </div>

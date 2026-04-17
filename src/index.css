@@ -46,6 +46,7 @@
 
   --color-expense: var(--expense);
   --color-income: var(--income);
+  --color-asset-point: var(--asset-point);
 }
 
 :root {
@@ -90,6 +91,7 @@
   --income-light: #b2dcca;
   --income-deep: #06a172;
 
+  --asset-point: oklch(0.646 0.089 268.34);
 }
 
 .dark {

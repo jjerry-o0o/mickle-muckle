@@ -140,7 +140,7 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
   }, [selectedDate, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <div className="h-dvh flex flex-col space-y-3 overflow-hidden">
+    <div className="h-dvh flex flex-col space-y-3 overflow-hidden border p-4 bg-background">
       <div className="flex flex-col">
         <div className="flex  items-end justify-between mb-4 mx-2">
           <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
