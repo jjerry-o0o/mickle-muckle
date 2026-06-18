@@ -6,12 +6,13 @@ import { TotalPage } from '@/pages/TotalPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="w-full h-dvh bg-background flex">
         <BrowserRouter>
-          <SideBar></SideBar>
+          <SideBar />
           <main className="flex-1 h-full">
             <Routes>
               <Route path="/" element={<MonthPage />} />
