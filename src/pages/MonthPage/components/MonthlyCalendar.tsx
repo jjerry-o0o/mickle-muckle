@@ -71,8 +71,8 @@ const MonthlyCalendar = ({ selectedDate, onDateClick }: MonthlyCalendarProps) =>
         <div className="flex items-baseline gap-4">
           <p className="customTitle">{currentYm}</p>
           <span className="flex gap-3 font-['Inter'] font-bold text-[15px]">
-            <span className="text-[#10b981]">+ {totalAmount.income.toLocaleString()}</span>
-            <span className="text-[#f97316]">- {totalAmount.expense.toLocaleString()}</span>
+            <span className="text-income">+ {totalAmount.income.toLocaleString()}</span>
+            <span className="text-expense">- {totalAmount.expense.toLocaleString()}</span>
           </span>
         </div>
         <button

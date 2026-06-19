@@ -74,15 +74,15 @@ const SideBar = () => {
         <IndexTab
           linkTo="/"
           menuName="Month"
-          borderColor="rgba(16,185,129,0.35)"
-          textColor="#10b981"
-          extraClass="shadow-[0px_12px_18px_0px_rgba(16,185,129,0.18)]"
+          borderColor="color-mix(in srgb, var(--income) 35%, transparent)"
+          textColor="var(--income)"
+          extraClass="shadow-[0px_12px_18px_0px_rgba(88,191,150,0.18)]"
         />
         <IndexTab
           linkTo="/total"
           menuName="TotalAssets"
-          borderColor="#f97316"
-          textColor="#f97316"
+          borderColor="var(--expense)"
+          textColor="var(--expense)"
         />
         <IndexTab
           linkTo="/finance"

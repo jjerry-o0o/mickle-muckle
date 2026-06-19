@@ -199,11 +199,11 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
         <div className="flex flex-col gap-3 pb-4">
           {selectedDate !== null && isDateEntriesPending && (
             <div className="flex flex-col items-center justify-center py-8 text-[#6b7280]">
-              <div className="mb-2 h-6 w-6 animate-spin rounded-full border-2 border-[#e5e7eb] border-t-[#10b981]" />
+              <div className="mb-2 h-6 w-6 animate-spin rounded-full border-2 border-[#e5e7eb] border-t-income" />
             </div>
           )}
           {selectedDate && dateEntries?.length === 0 && (
-            <div className="text-[#10b981] text-center mt-14 text-sm">
+            <div className="text-income text-center mt-14 text-sm">
               {dayjs(selectedDate).format('M월 D일')}은 수입/지출이 발생하지 않았습니다.
             </div>
           )}

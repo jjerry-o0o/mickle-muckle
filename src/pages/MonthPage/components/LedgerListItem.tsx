@@ -31,7 +31,7 @@ const LedgerListItem = ({
 
   const formattedDate = formatToKoreanDate(entry.entryDate);
   const amountColor = (entryType: EntryType) =>
-    entryType === 'E' ? 'text-[#f97316]' : 'text-[#10b981]';
+    entryType === 'E' ? 'text-expense' : 'text-income';
   const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
   const amount = `${amountPrefix(entry.entryType)}${entry.amount.toLocaleString()}원`;
 
@@ -49,7 +49,7 @@ const LedgerListItem = ({
       className={clsx(
         'bg-white border border-[rgba(229,231,235,0.9)] rounded-[16px] shadow-[0px_10px_16px_0px_rgba(17,24,39,0.06)] p-[13px] flex flex-col gap-[7px]',
         isSelecting && 'hover:-translate-y-0.5 hover:shadow-[0px_14px_20px_0px_rgba(17,24,39,0.09)] transition-all cursor-pointer',
-        editingEntryId === entry.entryId && 'ring-1 ring-[rgba(16,185,129,0.35)]',
+        editingEntryId === entry.entryId && 'ring-1 ring-income/35',
       )}
     >
       <div className="flex items-baseline justify-between">
