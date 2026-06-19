@@ -1,5 +1,5 @@
 import { ScrollArea } from '@/components/ui';
-import type { CreateLedgerEntry, CreateLedgerEntryDraft, EntryType, LedgerEntryDetail } from '@/types/ledger';
+import type { CreateLedgerEntry, CreateLedgerEntryDraft, LedgerEntryDetail } from '@/types/ledger';
 import { useLedgerFetch } from '@/hooks/useLedgerFetch';
 import { useCategoryFetch } from '@/hooks/useCategoryFetch';
 import { usePaymentMethodFetch } from '@/hooks/usePaymentMethodFetch';
@@ -84,13 +84,9 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
   const handleAddDataChange = (field: keyof LedgerEntryDetail, newValue: string | number) => {
     setListModeState(prev => {
       if (!prev.formLedger) return prev;
-
       return {
         ...prev,
-        formLedger: {
-          ...prev.formLedger,
-          [field]: newValue,
-        },
+        formLedger: { ...prev.formLedger, [field]: newValue },
       };
     });
   };
@@ -129,7 +125,6 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
         if (!item[0]?.isIntersecting) return;
         if (!hasNextPage) return;
         if (isFetchingNextPage) return;
-
         fetchNextPage();
       },
       { root, threshold: 0 },
@@ -140,17 +135,17 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
   }, [selectedDate, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <div className="h-dvh flex flex-col space-y-3 overflow-hidden border p-4 bg-background">
-      <div className="flex flex-col">
-        <div className="flex  items-end justify-between mb-4 mx-2">
-          <p className="text-[20px] font-semibold text-slate-900">일별 지출 목록</p>
+    <div className="w-[360px] shrink-0 h-full flex flex-col gap-[14px] overflow-hidden bg-white border-l border-[#e5e7eb] p-[18px_18px_18px_19px]">
+      <div className="flex items-center justify-between shrink-0">
+        <h2 className="text-[15px] font-bold tracking-[-0.01em] text-[#111827]">일별 지출 목록</h2>
+        <div className="flex gap-2">
           {listModeState.phase === 'select' && (
             <ListHeaderButton
               buttons={[
                 {
                   label: 'Back',
                   onClick: () => setListModeState({ phase: 'none', editingEntryId: null, formLedger: null }),
-                  icon: <MdArrowBack size="28" />,
+                  icon: <MdArrowBack size="16" />,
                   color: '--income',
                 },
               ]}
@@ -159,16 +154,11 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
           {listModeState.phase === 'none' && (
             <ListHeaderButton
               buttons={[
-                {
-                  label: 'Add',
-                  onClick: addItem,
-                  icon: <MdAdd size="28" />,
-                  color: '--income',
-                },
+                { label: 'Add', onClick: addItem, icon: <MdAdd size="16" />, color: '--income' },
                 {
                   label: 'Edit',
                   onClick: () => setListModeState(prev => ({ ...prev, phase: 'select' })),
-                  icon: <MdEditNote size="28" />,
+                  icon: <MdEditNote size="16" />,
                   color: '--expense',
                 },
               ]}
@@ -177,12 +167,7 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
           {(listModeState.phase === 'editing' || listModeState.phase === 'adding') && (
             <ListHeaderButton
               buttons={[
-                {
-                  label: 'Save',
-                  onClick: saveItem,
-                  icon: <MdCheck size="26" />,
-                  color: '--income',
-                },
+                { label: 'Save', onClick: saveItem, icon: <MdCheck size="16" />, color: '--income' },
                 {
                   label: 'Cancel',
                   onClick: () => {
@@ -192,32 +177,33 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
                       formLedger: null,
                     }));
                   },
-                  icon: <MdClear size="26" />,
+                  icon: <MdClear size="16" />,
                   color: '--expense',
                 },
               ]}
             />
           )}
         </div>
-        {listModeState.formLedger && (
-          <LedgerEntryForm
-            ledger={listModeState.formLedger}
-            onChange={handleAddDataChange}
-            categories={categories}
-            paymentMethods={paymentMethods}
-          />
-        )}
       </div>
 
-      <ScrollArea ref={scrollWrapRef} className="h-full pr-2">
-        <div className="h-full space-y-4 p-2">
+      {listModeState.formLedger && (
+        <LedgerEntryForm
+          ledger={listModeState.formLedger}
+          onChange={handleAddDataChange}
+          categories={categories}
+          paymentMethods={paymentMethods}
+        />
+      )}
+
+      <ScrollArea ref={scrollWrapRef} className="flex-1 pr-1">
+        <div className="flex flex-col gap-3 pb-4">
           {selectedDate !== null && isDateEntriesPending && (
-            <div className="flex flex-col items-center justify-center py-8 text-slate-400">
-              <div className="mb-2 h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-[var(--income)]" />
+            <div className="flex flex-col items-center justify-center py-8 text-[#6b7280]">
+              <div className="mb-2 h-6 w-6 animate-spin rounded-full border-2 border-[#e5e7eb] border-t-[#10b981]" />
             </div>
           )}
           {selectedDate && dateEntries?.length === 0 && (
-            <div className="text-[var(--income-deep)] text-center mt-14">
+            <div className="text-[#10b981] text-center mt-14 text-sm">
               {dayjs(selectedDate).format('M월 D일')}은 수입/지출이 발생하지 않았습니다.
             </div>
           )}

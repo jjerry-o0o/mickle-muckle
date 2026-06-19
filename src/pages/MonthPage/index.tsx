@@ -14,13 +14,11 @@ const MonthPage = () => {
   };
 
   return (
-    <div className="flex w-full h-full bg-background2">
-      <div className="flex flex-col w-[70%] h-full">
+    <div className="flex w-full h-full bg-[#f8fafc]">
+      <main className="flex-1 min-w-0 flex flex-col gap-4 p-[22px] overflow-hidden">
         <MonthlyCalendar onDateClick={handleDateClick} selectedDate={selectedDate} />
-      </div>
-      <div className="flex flex-col w-[30%] min-w-[480px]">
-        <LedgerList selectedDate={selectedDate} />
-      </div>
+      </main>
+      <LedgerList selectedDate={selectedDate} />
     </div>
   );
 };

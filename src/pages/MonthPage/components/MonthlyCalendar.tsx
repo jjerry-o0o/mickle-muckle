@@ -12,6 +12,7 @@ interface MonthlyCalendarProps {
   selectedDate: string | null;
   onDateClick: (date: string) => void;
 }
+
 const MonthlyCalendar = ({ selectedDate, onDateClick }: MonthlyCalendarProps) => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const calendarRef = useRef<FullCalendar | null>(null);
@@ -39,10 +40,9 @@ const MonthlyCalendar = ({ selectedDate, onDateClick }: MonthlyCalendarProps) =>
             card.target.appendChild(dateBadge);
             dateBadge.classList.add('on');
 
-            // 1초 유지 후 사라짐
             setTimeout(() => {
               dateBadge.classList.remove('on');
-              setTimeout(() => dateBadge.remove(), 250); // transition 시간과 맞춤
+              setTimeout(() => dateBadge.remove(), 250);
             }, 1000);
           }
         });
@@ -65,42 +65,50 @@ const MonthlyCalendar = ({ selectedDate, onDateClick }: MonthlyCalendarProps) =>
   }, [selectedDate]);
 
   return (
-    <div ref={wrapRef} className="flex flex-col h-full justify-center">
-      {/* 캘린더 헤더 영역 */}
-      <div className="flex justify-between mt-8 mx-4 px-2 pb-4 shrink-0">
-        <div className="flex gap-2 items-baseline">
+    <div ref={wrapRef} className="flex flex-col h-full">
+      {/* 캘린더 헤더 */}
+      <div className="flex items-baseline justify-between shrink-0 mb-4">
+        <div className="flex items-baseline gap-4">
           <p className="customTitle">{currentYm}</p>
-          <span className="text-lg text-[var(--income-deep)]">+ {totalAmount.income.toLocaleString()}</span>
-          <span className="text-lg text-[var(--expense-deep)]">- {totalAmount.expense.toLocaleString()}</span>
+          <span className="flex gap-3 font-['Inter'] font-bold text-[15px]">
+            <span className="text-[#10b981]">+ {totalAmount.income.toLocaleString()}</span>
+            <span className="text-[#f97316]">- {totalAmount.expense.toLocaleString()}</span>
+          </span>
         </div>
         <button
           type="button"
-          className="customToday-Btn shadow-md"
+          className="customToday-Btn"
           onClick={() => calendarRef.current?.getApi().today()}
         >
           Today
         </button>
       </div>
-      {/* 캘린더 영역 */}
-      <div className="flex-1 border-2 mx-4 rounded-4xl overflow-auto mb-8 shadow-lg no-scrollbar">
-        <div className="flex f-full bg-background border-b shrink-0">
+
+      {/* 캘린더 본체 */}
+      <section className="flex-1 bg-white border border-[rgba(229,231,235,0.9)] rounded-[20px] shadow-[0px_10px_30px_0px_rgba(17,24,39,0.08)] flex flex-col overflow-hidden">
+        <div className="grid grid-cols-7 border-b border-[#e5e7eb] bg-gradient-to-b from-white to-[#fbfdff] shrink-0">
           {WEEK_DAYS.map(day => (
-            <p key={day} className="flex flex-1 w-full h-10 items-center justify-center">
+            <p
+              key={day}
+              className="p-[12px_14px] font-['Inter'] font-bold text-[12px] tracking-[0.04em] uppercase text-[#6b7280] text-center"
+            >
               {day}
             </p>
           ))}
         </div>
-        <FullCalendar
-          ref={calendarRef}
-          plugins={[multiMonthPlugin, interactionPlugin]}
-          initialView="multiMonthYear"
-          multiMonthMaxColumns={1}
-          headerToolbar={false}
-          events={events}
-          eventOrder={['-title']}
-          dateClick={info => onDateClick(info.dateStr)}
-        />
-      </div>
+        <div className="flex-1 overflow-hidden">
+          <FullCalendar
+            ref={calendarRef}
+            plugins={[multiMonthPlugin, interactionPlugin]}
+            initialView="multiMonthYear"
+            multiMonthMaxColumns={1}
+            headerToolbar={false}
+            events={events}
+            eventOrder={['-title']}
+            dateClick={info => onDateClick(info.dateStr)}
+          />
+        </div>
+      </section>
     </div>
   );
 };

@@ -62,28 +62,50 @@ const SideBar = () => {
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next);
-    if (!next) resetForm();
+    if (!next) {
+      resetForm();
+      setMode('login');
+    }
   };
 
   return (
-    <div className="w-12 h-full flex flex-col justify-between bg-background border-r">
-      <div className="flex flex-col items-end gap-3">
-        <IndexTab linkTo="/" menuName="Month" color="F97316" />
-        <IndexTab linkTo="/total" menuName="TotalAssets" color="F97316" />
-        <IndexTab linkTo="/finance" menuName="Finance" color="F97316" />
+    <div className="w-[70px] h-full flex flex-col items-center px-[14px] py-[18px] gap-4 bg-white border-r border-[#e5e7eb]">
+      <div className="flex flex-col items-end gap-3 w-full">
+        <IndexTab
+          linkTo="/"
+          menuName="Month"
+          borderColor="rgba(16,185,129,0.35)"
+          textColor="#10b981"
+          extraClass="shadow-[0px_12px_18px_0px_rgba(16,185,129,0.18)]"
+        />
+        <IndexTab
+          linkTo="/total"
+          menuName="TotalAssets"
+          borderColor="#f97316"
+          textColor="#f97316"
+        />
+        <IndexTab
+          linkTo="/finance"
+          menuName="Finance"
+          borderColor="#839bbd"
+          textColor="#111827"
+        />
       </div>
+
+      <div className="flex-1" />
+
       {loggedIn ? (
         <button
           onClick={handleLogout}
-          className="flex justify-center items-center w-full py-3 hover:bg-accent transition-colors"
+          className="w-10 h-10 rounded-full bg-[#f9fafb] border border-[#e5e7eb] flex items-center justify-center hover:bg-[#f3f4f6] transition-colors"
         >
-          <LogOut size={18} />
+          <LogOut size={18} className="text-[#6b7280]" />
         </button>
       ) : (
         <Dialog open={open} onOpenChange={handleOpenChange}>
           <DialogTrigger asChild>
-            <button className="flex justify-center items-center w-full py-3 hover:bg-accent transition-colors">
-              <LogIn size={18} />
+            <button className="w-10 h-10 rounded-full bg-[#f9fafb] border border-[#e5e7eb] flex items-center justify-center hover:bg-[#f3f4f6] transition-colors">
+              <LogIn size={18} className="text-[#6b7280]" />
             </button>
           </DialogTrigger>
           <DialogContent className="max-w-sm">

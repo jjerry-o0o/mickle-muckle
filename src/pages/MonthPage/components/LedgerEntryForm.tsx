@@ -40,13 +40,13 @@ const LedgerEntryForm = ({ ledger, onChange, categories, paymentMethods }: Ledge
   const parseAmountInput = (value: string) => Number(value.replace(/\D/g, '').replace(/^0+/, ''));
 
   return (
-    <div className="space-y-3 pb-4 border-b">
-      <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 p-3 shadow">
-        <div className="grid grid-cols-[20%_25%_1fr_25%] gap-3 ">
+    <div className="pb-4 border-b">
+      <div className="flex flex-col gap-2.5 rounded-2xl border border-[#e5e7eb] p-3 shadow-sm">
+        <div className="flex gap-2.5">
           <ToggleGroup
             type="single"
             variant="outline"
-            className="w-full"
+            className="shrink-0"
             value={ledger.entryType}
             onValueChange={value => value && onChange(LEDGER_FIELDS.entryType, value)}
           >
@@ -56,32 +56,33 @@ const LedgerEntryForm = ({ ledger, onChange, categories, paymentMethods }: Ledge
                 value={option.value}
                 className={clsx(
                   'transition-none',
-                  option.value === 'I' && 'data-[state=on]:bg-[var(--income)] data-[state=on]:text-white flex-1',
-                  option.value === 'E' && 'data-[state=on]:bg-[var(--expense)] data-[state=on]:text-white flex-1',
+                  option.value === 'I' && 'data-[state=on]:bg-[var(--income)] data-[state=on]:text-white',
+                  option.value === 'E' && 'data-[state=on]:bg-[var(--expense)] data-[state=on]:text-white',
                 )}
               >
                 {option.label}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
-
           <Input
             type="date"
             value={ledger.entryDate}
-            className="w-full"
+            className="flex-1"
             onChange={e => onChange(LEDGER_FIELDS.entryDate, e.target.value)}
           />
+        </div>
 
+        <div className="flex gap-2.5">
           <Input
             type="text"
             inputMode="numeric"
             value={ledger.amount.toLocaleString()}
-            className="text-end w-full"
+            placeholder="금액"
+            className="flex-1 text-end"
             onChange={e => onChange(LEDGER_FIELDS.amount, parseAmountInput(e.target.value))}
           />
-
           <Select value={ledger.paymentId?.toString()} onValueChange={value => onChange('paymentId', Number(value))}>
-            <SelectTrigger className="w-full min-w-0 overflow-hidden">
+            <SelectTrigger className="w-[38%] min-w-0 overflow-hidden">
               <SelectValue placeholder="결제방법" />
             </SelectTrigger>
             <SelectContent>
@@ -98,17 +99,16 @@ const LedgerEntryForm = ({ ledger, onChange, categories, paymentMethods }: Ledge
           </Select>
         </div>
 
-        <div className="grid grid-cols-[1fr_25%] gap-3">
+        <div className="flex gap-2.5">
           <Input
             type="text"
             value={ledger.title}
             placeholder="수입/지출 항목"
-            className="w-full"
+            className="flex-1"
             onChange={e => onChange(LEDGER_FIELDS.title, e.target.value)}
           />
-
           <Select value={ledger.categoryId?.toString()} onValueChange={value => onChange('categoryId', Number(value))}>
-            <SelectTrigger className="w-full min-w-0 overflow-hidden">
+            <SelectTrigger className="w-[38%] min-w-0 overflow-hidden">
               <SelectValue placeholder="카테고리" />
             </SelectTrigger>
             <SelectContent>

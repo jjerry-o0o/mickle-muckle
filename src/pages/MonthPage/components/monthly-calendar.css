@@ -1,106 +1,14 @@
 :root {
-  --cal-bg: oklch(0.97 0 89.876);
   --cal-surface: #ffffff;
-  --cal-border: #e7eaee;
-  --cal-muted-border: #edf0f3;
-  --cal-text: #2f3440;
-  --cal-subtext: #8f98a6;
-  --cal-mint-strong: #43ad83;
-  --cal-chip-bg: #f8fafb;
+  --cal-border: #e5e7eb;
+  --cal-text: #111827;
+  --cal-subtext: #6b7280;
+  --cal-chip-bg: #fbfdff;
 }
 
 .fc {
-  background: var(--cal-bg);
-  padding: 16px;
+  background: var(--cal-surface);
   color: var(--cal-text);
-}
-
-.fc .fc-toolbar.fc-header-toolbar {
-  margin-bottom: 0px;
-}
-
-.fc .fc-toolbar-title {
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: #2d323d;
-}
-
-.fc .fc-button {
-  box-shadow: none;
-}
-
-.fc .fc-button-primary {
-  border: none;
-  color: #ffffff;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.fc .fc-button-primary:hover {
-  background: #e9edf2;
-  border-color: #d7dde5;
-  color: #242a35;
-}
-
-.fc .fc-button-primary:focus {
-  box-shadow: 0 0 0 3px rgba(88, 191, 150, 0.2);
-}
-
-.fc .fc-button-active,
-.fc .fc-button-primary:not(:disabled):active {
-  background: var(--income);
-  border-color: var(--income);
-  color: #fff;
-}
-
-/* customToday 기본 색상 */
-.customToday-Btn {
-  background: var(--income) !important;
-  border: 1px solid var(--income) !important;
-  color: #ffffff !important;
-  padding: 1px 8px;
-  border-radius: 8px;
-}
-
-/* hover 시 더 진한 민트 */
-.customToday-Btn:hover {
-  background: #43ad83 !important;
-  border-color: #43ad83 !important;
-  color: #ffffff !important;
-}
-
-/* active/focus도 톤 맞춤 (선택) */
-.customToday-Btn:focus,
-.customToday-Btn:active {
-  background: #3b9e77 !important;
-  border-color: #3b9e77 !important;
-  box-shadow: 0 0 0 3px rgba(88, 191, 150, 0.25) !important;
-}
-
-.fc {
-  padding: 0;
-}
-
-.fc .fc-daygrid-day {
-  background: #fff;
-  min-height: 96px;
-}
-
-.fc .fc-day-today {
-  background: #fcfffd !important;
-}
-
-.fc .fc-day-today .fc-daygrid-day-number {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  background: var(--income);
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 8px 0 0 8px;
   padding: 0;
 }
 
@@ -109,30 +17,152 @@
   display: none;
 }
 
-/* 요일 헤더 숨김 */
+/* 요일 헤더 숨김 - 커스텀 헤더 사용 */
 .fc .fc-multimonth-header-table {
   display: none;
-}
-
-/* customTitle만 별도 스타일 */
-.customTitle {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  color: #2d323d !important;
-  font-size: 36px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  padding: 0;
-  line-height: 1.1;
-  cursor: default;
 }
 
 .fc .fc-multimonth {
   border: none;
 }
 
-/* 현재 가시성 범위에 보여진 달력 영역에 년/월 표기 */
+/* Day cell */
+.fc .fc-daygrid-day {
+  background: #fff;
+  min-height: 80px;
+}
+
+.fc .fc-daygrid-day-number {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #111827;
+  padding: 8px 7px 0 8px;
+  text-decoration: none;
+}
+
+/* Today */
+.fc .fc-day-today {
+  background: #fcfffd !important;
+}
+
+.fc .fc-day-today .fc-daygrid-day-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #10b981;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 3px 0 8px;
+  padding: 0;
+}
+
+/* Event badges */
+.fc .fc-daygrid-event-harness {
+  margin-bottom: 3px;
+}
+
+.fc-h-event {
+  border: none !important;
+}
+
+.fc-daygrid-event {
+  border-radius: 10px !important;
+}
+
+.fc-event.fc-h-event {
+  background-color: #fbfdff !important;
+  border: 1px solid rgba(229, 231, 235, 0.85) !important;
+  padding: 1px 6px !important;
+}
+
+.event-income-border-l,
+.event-expense-border-l {
+  border-left: none !important;
+}
+
+.event-income-border-l .fc-event-main,
+.event-expense-border-l .fc-event-main {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 11.5px;
+}
+
+.event-income-border-l .fc-event-main::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+  background: #10b981;
+  border-radius: 50%;
+}
+
+.event-expense-border-l .fc-event-main::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+  background: #f97316;
+  border-radius: 50%;
+}
+
+/* customToday button */
+.customToday-Btn {
+  background: #10b981 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 9px 16px;
+  box-shadow: 0px 8px 12px 0px rgba(16, 185, 129, 0.18);
+}
+
+.customToday-Btn:hover {
+  background: #0ea572 !important;
+  border-color: #0ea572 !important;
+}
+
+.customToday-Btn:focus,
+.customToday-Btn:active {
+  background: #0d9668 !important;
+  border-color: #0d9668 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
+}
+
+/* customTitle */
+.customTitle {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #111827 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  padding: 0;
+  line-height: 1.1;
+  cursor: default;
+}
+
+/* Scroll */
+.fc .fc-scroller {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.fc .fc-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* Visible badge (intersection observer) */
 .fc .fc-multimonth-month {
   position: relative;
 }
@@ -141,13 +171,11 @@
   top: 0;
   left: 0;
   z-index: 999;
-
   background: #9bdfc4;
   color: #242a35;
   font-size: 18px;
   font-weight: 700;
   padding: 4px 10px;
-
   opacity: 0;
   transition: 0.3s ease;
 }
@@ -155,70 +183,43 @@
   opacity: 1;
 }
 
-/* 스크롤은 유지, 스크롤바만 숨김 */
-.fc .fc-scroller {
-  scrollbar-width: none;      /* Firefox */
-  -ms-overflow-style: none;   /* IE/Edge legacy */
-}
-.fc .fc-scroller::-webkit-scrollbar {
-  display: none;              /* Chrome/Safari */
-}
-
-/* 각 day 칸 안에 보여질 수입/지출 항목 css */
-.fc .fc-daygrid-event-harness { margin-bottom: 2px;}
-.fc-h-event { border: none; }
-.fc-daygrid-event { border-radius: 0;}
-.fc-event.fc-h-event {
-  background-color: transparent;
-}
-
-.event-income-border-l {
-  border-left: 3px solid var(--income);
-}
-.event-expense-border-l {
-  border-left: 3px solid var(--expense);
-}
-
-/* 달력 > 스크롤 스냅 적용 */
+/* Scroll snap */
 .fc-multiMonthYear-view.fc-view.fc-multimonth.fc-multimonth-singlecol.fc-scroller {
   scroll-snap-type: y proximity;
 }
-
 .fc-multimonth-daygrid-table tr {
   scroll-snap-align: start;
 }
 
-/* 달력 > 테이블과 행의 높이 계산 무력화 */
+/* Height auto */
 .fc-multimonth-daygrid-table,
 .fc-multimonth-daygrid-table tr,
 .fc-multimonth-daygrid-table td {
   height: auto !important;
 }
 
-/* 달력 > 각 일자칸 높이 비율 재정의 (대략 5주차 씩 보이도록) */
 .fc-multimonth-daygrid-table .fc-daygrid-day-frame {
   aspect-ratio: 1 / 0.73 !important;
-
-  height: auto !important; /* 고정 높이 해제 */
-  min-height: 0 !important; /* 기본 최소 높이 해제 */
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
-    height: 100%;
+  height: 100%;
 }
 
-/* 달력 > 일자칸 hover 스타일 추가 */
+/* Hover on day cell */
 .fc-daygrid-day-frame.fc-scrollgrid-sync-inner:hover {
-  background: var(--background2);
+  background: #f8fafc;
 }
 
-/* 달력 > 일자칸에 수입/지출 텍스트 영역 클릭해도 달력의 dateClick() 호출되도록 */
+/* Prevent event click from blocking date click */
 .fc-daygrid-day-events {
   pointer-events: none;
 }
 
-/* 달력 > 일자칸 클릭한 경우 스타일 추가 */
+/* Selected day highlight */
 .fc-day-selected .fc-daygrid-day-frame {
-    border: 1px solid var(--income-light);
-    box-shadow: 0 0 8px var(--income-light);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
 }
