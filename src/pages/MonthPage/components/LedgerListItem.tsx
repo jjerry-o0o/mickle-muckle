@@ -95,7 +95,7 @@ const LedgerListItem = ({
               startEdit(entry);
             }}
           >
-            {isDeleteConfirming ? 'Cancel Delete' : 'Edit'}
+            {isDeleteConfirming ? 'Cancel' : 'Edit'}
           </Button>
           <ButtonGroupSeparator />
           <Button
