@@ -3,7 +3,7 @@ import AssetDashboard from '@/pages/TotalPage/components/AssetDashboard';
 
 const TotalPage = () => {
   return (
-    <div className="flex w-full h-full bg-background2">
+    <div className="flex w-full h-full bg-background2 p-4 gap-4">
       <div className="flex flex-col w-[30%] h-full">
         <AssetList />
       </div>

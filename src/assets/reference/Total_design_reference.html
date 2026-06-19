@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>mickle-muckle — TotalAssets Draft (Tailwind)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: { fontFamily: { sans: ['Noto Sans KR', 'Inter', 'sans-serif'] } } }
+  }
+</script>
+</head>
+<body class="font-sans m-0 bg-[#f4f9f7] p-12 flex flex-col items-center gap-[18px]">
+
+  <div class="max-w-[1000px] w-full flex items-baseline gap-[10px]">
+    <span class="font-['Inter'] font-bold text-[13px] tracking-[0.04em] text-[#10b981] bg-[rgba(16,185,129,0.1)] border border-[rgba(16,185,129,0.25)] rounded-full px-3 py-1">CLAUDE DRAFT</span>
+    <p class="m-0 text-[13px] text-[#6b7280]">Figma "TotalAssets" 프레임을 동일한 디자인 컨셉(컬러·라운드·섀도우)으로 변환 — Tailwind 클래스 버전</p>
+  </div>
+
+  <div class="w-full max-w-[1000px] flex gap-4 items-start">
+
+    <!-- Icon nav -->
+    <aside class="w-[72px] shrink-0 bg-white border border-[rgba(229,231,235,0.9)] rounded-[20px] shadow-[0px_10px_24px_0px_rgba(17,24,39,0.06)] flex flex-col items-center gap-5 py-6 px-3">
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-[42px] h-[42px] rounded-full bg-[#f3f4f6] border border-[#e5e7eb]"></div>
+        <span class="text-[10px] text-[#9ca3af] font-medium">프로필</span>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-[42px] h-[42px] rounded-full bg-white border border-[#e5e7eb]"></div>
+        <span class="text-[10px] text-[#9ca3af] font-medium">월별</span>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-[42px] h-[42px] rounded-full bg-white border-2 border-[#10b981] shadow-[0px_6px_12px_0px_rgba(16,185,129,0.25)] flex items-center justify-center">
+          <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+        </div>
+        <span class="text-[10px] text-[#10b981] font-bold">전재산</span>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-[42px] h-[42px] rounded-full bg-white border border-[#e5e7eb]"></div>
+        <span class="text-[10px] text-[#9ca3af] font-medium">재테크</span>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-[42px] h-[42px] rounded-full bg-white border border-[#e5e7eb]"></div>
+        <span class="text-[10px] text-[#9ca3af] font-medium">설정</span>
+      </div>
+    </aside>
+
+    <!-- Asset breakdown panel -->
+    <section class="w-[270px] shrink-0 bg-white border border-[rgba(229,231,235,0.9)] rounded-[20px] shadow-[0px_10px_24px_0px_rgba(17,24,39,0.06)] p-5 flex flex-col gap-5">
+
+      <div class="flex flex-col gap-2">
+        <h3 class="m-0 text-[14px] font-bold text-[#111827]">현금</h3>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">신한은행 계좌</span><span class="font-['Inter'] font-semibold text-[#111827]">864,021</span></div>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">국민은행 계좌</span><span class="font-['Inter'] font-semibold text-[#111827]">12,571</span></div>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">케이뱅크 계좌</span><span class="font-['Inter'] font-semibold text-[#111827]">6,140</span></div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h3 class="m-0 text-[14px] font-bold text-[#111827]">적금</h3>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">신한청년도약</span><span class="font-['Inter'] font-semibold text-[#111827]">1,400,000</span></div>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">국민스타적금</span><span class="font-['Inter'] font-semibold text-[#111827]">2,100,000</span></div>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">하나주택청약</span><span class="font-['Inter'] font-semibold text-[#111827]">720,000</span></div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h3 class="m-0 text-[14px] font-bold text-[#111827]">재테크</h3>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">토스 예수금</span><span class="font-['Inter'] font-semibold text-[#111827]">290,000</span></div>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">토스 미국주식 원금</span><span class="font-['Inter'] font-semibold text-[#111827]">1,247,190</span></div>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">토스 미국주식 수익</span><span class="font-['Inter'] font-semibold text-[#10b981]">198,451</span></div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h3 class="m-0 text-[14px] font-bold text-[#111827]">기타</h3>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">집 보증금</span><span class="font-['Inter'] font-semibold text-[#111827]">2,000,000</span></div>
+        <div class="flex justify-between text-[12.5px]"><span class="text-[#6b7280]">예상 퇴직금</span><span class="font-['Inter'] font-semibold text-[#111827]">5,201,793</span></div>
+      </div>
+
+      <div class="bg-[#d1fae5] rounded-[14px] px-4 py-3 flex items-center justify-between mt-1">
+        <span class="text-[13px] font-bold text-[#065f46]">전재산 합계</span>
+        <span class="font-['Inter'] font-bold text-[15px] text-[#065f46]">25,734,890</span>
+      </div>
+    </section>
+
+    <!-- Charts column -->
+    <div class="flex-1 min-w-0 flex flex-col gap-4">
+
+      <!-- Chart 1: total assets over time -->
+      <div class="bg-white border border-[rgba(229,231,235,0.9)] rounded-[20px] shadow-[0px_10px_24px_0px_rgba(17,24,39,0.06)] p-5">
+        <h3 class="m-0 mb-4 text-[14px] font-bold text-[#111827]">기간별 전재산 합계 그래프</h3>
+        <div class="flex">
+          <div class="flex flex-col justify-between text-[11px] text-[#9ca3af] font-['Inter'] pr-2 pb-5">
+            <span>30,-</span><span>20,-</span><span>10,-</span>
+          </div>
+          <div class="flex-1">
+            <svg viewBox="0 0 540 110" class="w-full h-[110px]" preserveAspectRatio="none">
+              <line x1="0" y1="5" x2="540" y2="5" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="40" x2="540" y2="40" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="75" x2="540" y2="75" stroke="#f1f5f9" stroke-width="1"/>
+              <polyline points="10,88 75,55 140,60 205,65 270,52 335,40 400,32 465,18 530,8"
+                fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="flex justify-between text-[10.5px] text-[#9ca3af] font-['Inter'] mt-1">
+              <span>25.05</span><span>25.06</span><span>25.07</span><span>25.08</span><span>25.09</span><span>25.10</span><span>25.11</span><span>25.12</span><span>26.01</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 2: investment return rate -->
+      <div class="bg-white border border-[rgba(229,231,235,0.9)] rounded-[20px] shadow-[0px_10px_24px_0px_rgba(17,24,39,0.06)] p-5">
+        <h3 class="m-0 mb-4 text-[14px] font-bold text-[#111827]">기간별 재테크 수익률 그래프</h3>
+        <div class="flex">
+          <div class="flex flex-col justify-between text-[11px] text-[#9ca3af] font-['Inter'] pr-2 pb-5">
+            <span>3,-</span><span>2,-</span><span>1,-</span>
+          </div>
+          <div class="flex-1">
+            <svg viewBox="0 0 540 110" class="w-full h-[110px]" preserveAspectRatio="none">
+              <line x1="0" y1="5" x2="540" y2="5" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="40" x2="540" y2="40" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="75" x2="540" y2="75" stroke="#f1f5f9" stroke-width="1"/>
+              <polyline points="10,80 75,68 140,62 205,58 270,50 335,42 400,35 465,22 530,15"
+                fill="none" stroke="#fb923c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="10,90 75,75 140,70 205,66 270,58 335,48 400,40 465,28 530,16"
+                fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <g font-family="Inter" font-size="9" font-weight="700" fill="#9ca3af" text-anchor="middle">
+                <text x="10" y="72">13%</text><text x="75" y="60">13%</text><text x="140" y="54">13%</text>
+                <text x="205" y="50">13%</text><text x="270" y="42">13%</text><text x="335" y="34">13%</text>
+                <text x="400" y="27">13%</text><text x="465" y="14">13%</text><text x="530" y="7">13%</text>
+              </g>
+            </svg>
+            <div class="flex justify-between text-[10.5px] text-[#9ca3af] font-['Inter'] mt-1">
+              <span>25.05</span><span>25.06</span><span>25.07</span><span>25.08</span><span>25.09</span><span>25.10</span><span>25.11</span><span>25.12</span><span>26.01</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 3: asset ratio donut -->
+      <div class="bg-white border border-[rgba(229,231,235,0.9)] rounded-[20px] shadow-[0px_10px_24px_0px_rgba(17,24,39,0.06)] p-5">
+        <h3 class="m-0 mb-4 text-[14px] font-bold text-[#111827]">재산 비율 그래프</h3>
+        <div class="flex items-center gap-8">
+          <div class="w-[120px] h-[120px] rounded-full shrink-0 relative"
+               style="background: conic-gradient(#2dd4bf 0% 32%, #fb923c 32% 48%, #fde68a 48% 62%, #c4b5fd 62% 69%, #cbd5e1 69% 100%);">
+            <div class="absolute inset-[16px] rounded-full bg-white"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-x-8 gap-y-2 text-[12.5px]">
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#2dd4bf]"></span><span class="text-[#374151]">현금</span><span class="font-['Inter'] font-semibold text-[#111827] ml-auto">38%</span></div>
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#c4b5fd]"></span><span class="text-[#374151]">기타</span><span class="font-['Inter'] font-semibold text-[#111827] ml-auto">8%</span></div>
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#fb923c]"></span><span class="text-[#374151]">재테크</span><span class="font-['Inter'] font-semibold text-[#111827] ml-auto">19%</span></div>
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#cbd5e1]"></span><span class="text-[#374151]">적금?</span><span class="font-['Inter'] font-semibold text-[#111827] ml-auto">37%</span></div>
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#fde68a]"></span><span class="text-[#374151]">적금</span><span class="font-['Inter'] font-semibold text-[#111827] ml-auto">17%</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
