@@ -21,4 +21,13 @@ export const authApi = {
 
   signup: (body: SignupRequest) =>
     axiosApi.post<void>('/auth/signup', body),
+
+  sendEmailCode: (email: string) =>
+    axiosApi.post<void>('/auth/email/send', { email }),
+
+  verifyEmailCode: (email: string, code: string) =>
+    axiosApi.post<void>('/auth/email/verify', { email, code }),
+
+  resetPassword: (email: string, newPassword: string) =>
+    axiosApi.patch<void>('/auth/password/reset', { email, newPassword }),
 };
