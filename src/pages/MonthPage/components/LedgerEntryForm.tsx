@@ -1,5 +1,5 @@
-import type { CreateLedgerEntryDraft, EntryType, LedgerEntryDetail } from '@/types/ledger';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import type { CreateLedgerEntryDraft, EntryType, LedgerEntryDetail } from '@/types/ledger'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import {
   Select,
   SelectContent,
@@ -8,11 +8,11 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { clsx } from 'clsx';
-import { Input } from '@/components/ui';
-import type { Category } from '@/types/category';
-import type { PaymentMethod } from '@/types/paymentMethod';
+} from '@/components/ui/select'
+import { clsx } from 'clsx'
+import { Input } from '@/components/ui'
+import type { Category } from '@/types/category'
+import type { PaymentMethod } from '@/types/paymentMethod'
 
 const LEDGER_FIELDS = {
   entryDate: 'entryDate',
@@ -22,12 +22,12 @@ const LEDGER_FIELDS = {
   memo: 'memo',
   categoryId: 'categoryId',
   paymentId: 'paymentId',
-} satisfies Record<string, keyof LedgerEntryDetail>;
+} satisfies Record<string, keyof LedgerEntryDetail>
 
 const ENTRY_TYPE_OPTIONS: { label: string; value: EntryType }[] = [
   { label: '지출', value: 'E' },
   { label: '수입', value: 'I' },
-];
+]
 
 interface LedgerEntryFormProps {
   ledger: CreateLedgerEntryDraft;
@@ -37,7 +37,7 @@ interface LedgerEntryFormProps {
 }
 
 const LedgerEntryForm = ({ ledger, onChange, categories, paymentMethods }: LedgerEntryFormProps) => {
-  const parseAmountInput = (value: string) => Number(value.replace(/\D/g, '').replace(/^0+/, ''));
+  const parseAmountInput = (value: string) => Number(value.replace(/\D/g, '').replace(/^0+/, ''))
 
   return (
     <div className="pb-4 border-b">
@@ -135,7 +135,7 @@ const LedgerEntryForm = ({ ledger, onChange, categories, paymentMethods }: Ledge
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LedgerEntryForm;
+export default LedgerEntryForm

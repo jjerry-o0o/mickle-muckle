@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   createLedgerEntry,
   deleteLedgerEntry,
@@ -8,8 +8,8 @@ import {
   fetchLedgerEntriesDailySum,
   fetchLedgerEntry,
   updateLedgerEntry,
-} from '@/api/ledgerApi';
-import type { CreateLedgerEntry, UpdateLedgerEntry } from '@/types/ledger';
+} from '@/api/ledgerApi'
+import type { CreateLedgerEntry, UpdateLedgerEntry } from '@/types/ledger'
 
 export const useLedgerFetch = {
   useLedgerEntry: (id: number) =>
@@ -30,7 +30,7 @@ export const useLedgerFetch = {
       queryFn: ({ pageParam = 0 }) => fetchLedgerEntriesByPagination(pageParam),
       initialPageParam: 0,
       getNextPageParam: lastPage => {
-        return lastPage.last ? undefined : lastPage.number + 1;
+        return lastPage.last ? undefined : lastPage.number + 1
       },
       enabled: enabled,
     }),
@@ -42,36 +42,36 @@ export const useLedgerFetch = {
     }),
 
   useLedgerEntrySave: () => {
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
     return useMutation({
       mutationFn: (addLedger: CreateLedgerEntry) => createLedgerEntry(addLedger),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['/ledger/month'] });
-        queryClient.invalidateQueries({ queryKey: ['/ledger/month/sum'] });
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month'] })
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month/sum'] })
       },
-    });
+    })
   },
 
   useLedgerEntryDelete: () => {
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
     return useMutation({
       mutationFn: (id: number) => deleteLedgerEntry(id),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['/ledger/month'] });
-        queryClient.invalidateQueries({ queryKey: ['/ledger/month/sum'] });
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month'] })
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month/sum'] })
       },
-    });
+    })
   },
 
   useLedgerEntryUpdate: () => {
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
     return useMutation({
       mutationFn: ({ id, ledger }: { id: number; ledger: UpdateLedgerEntry }) => updateLedgerEntry(id, ledger),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['/ledger/month'] });
-        queryClient.invalidateQueries({ queryKey: ['/ledger/month/sum'] });
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month'] })
+        queryClient.invalidateQueries({ queryKey: ['/ledger/month/sum'] })
       },
-    });
+    })
   },
 
   useLedgerEntriesByDate: (targetDate: string | null) =>
@@ -80,4 +80,4 @@ export const useLedgerFetch = {
       queryFn: () => fetchLedgerEntriesByDate(targetDate as string),
       enabled: targetDate !== null,
     }),
-};
+}

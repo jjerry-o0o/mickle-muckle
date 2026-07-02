@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { authApi } from '@/api/authApi';
-import type { AxiosError } from 'axios';
+import { useState } from 'react'
+import { authApi } from '@/api/authApi'
+import type { AxiosError } from 'axios'
 
 type Step = 'email' | 'verify' | 'reset'
 
@@ -10,45 +10,45 @@ type Props = {
 }
 
 const ForgotPasswordForm = ({ onDone, onSwitchLogin }: Props) => {
-  const [step, setStep] = useState<Step>('email');
-  const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [error, setError] = useState('');
+  const [step, setStep] = useState<Step>('email')
+  const [email, setEmail] = useState('')
+  const [code, setCode] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [error, setError] = useState('')
 
   const handleSendCode = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
+    e.preventDefault()
+    setError('')
     try {
-      await authApi.sendEmailCode(email);
-      setStep('verify');
+      await authApi.sendEmailCode(email)
+      setStep('verify')
     } catch (err) {
-      const message = (err as AxiosError<{ message: string }>).response?.data?.message;
-      setError(message ?? '이메일 발송에 실패했습니다.');
+      const message = (err as AxiosError<{ message: string }>).response?.data?.message
+      setError(message ?? '이메일 발송에 실패했습니다.')
     }
-  };
+  }
 
   const handleVerify = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
+    e.preventDefault()
+    setError('')
     try {
-      await authApi.verifyEmailCode(email, code);
-      setStep('reset');
+      await authApi.verifyEmailCode(email, code)
+      setStep('reset')
     } catch (err) {
-      const message = (err as AxiosError<{ message: string }>).response?.data?.message;
-      setError(message ?? '인증에 실패했습니다.');
+      const message = (err as AxiosError<{ message: string }>).response?.data?.message
+      setError(message ?? '인증에 실패했습니다.')
     }
-  };
+  }
 
   const handleReset = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
+    e.preventDefault()
+    setError('')
     try {
-      await authApi.resetPassword(email, newPassword);
-      onDone();
+      await authApi.resetPassword(email, newPassword)
+      onDone()
     } catch (err) {
-      const message = (err as AxiosError<{ message: string }>).response?.data?.message;
-      setError(message ?? '비밀번호 재설정에 실패했습니다.');
+      const message = (err as AxiosError<{ message: string }>).response?.data?.message
+      setError(message ?? '비밀번호 재설정에 실패했습니다.')
     }
   }
 
@@ -86,4 +86,4 @@ const ForgotPasswordForm = ({ onDone, onSwitchLogin }: Props) => {
   )
 }
 
-export { ForgotPasswordForm };
+export { ForgotPasswordForm }

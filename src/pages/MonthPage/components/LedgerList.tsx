@@ -1,16 +1,16 @@
-import { ScrollArea } from '@/components/ui';
-import type { CreateLedgerEntry, CreateLedgerEntryDraft, LedgerEntryDetail } from '@/types/ledger';
-import { useLedgerFetch } from '@/hooks/useLedgerFetch';
-import { useCategoryFetch } from '@/hooks/useCategoryFetch';
-import { usePaymentMethodFetch } from '@/hooks/usePaymentMethodFetch';
-import type { Category } from '@/types/category';
-import type { PaymentMethod } from '@/types/paymentMethod';
-import { useEffect, useRef, useState } from 'react';
-import { MdAdd, MdCheck, MdClear, MdEditNote, MdArrowBack } from 'react-icons/md';
-import dayjs from 'dayjs';
-import LedgerEntryForm from '@/pages/MonthPage/components/LedgerEntryForm';
-import LedgerListItem from '@/pages/MonthPage/components/LedgerListItem';
-import ListHeaderButton from '@/pages/MonthPage/components/ListHeaderButton';
+import { ScrollArea } from '@/components/ui'
+import type { CreateLedgerEntry, CreateLedgerEntryDraft, LedgerEntryDetail } from '@/types/ledger'
+import { useLedgerFetch } from '@/hooks/useLedgerFetch'
+import { useCategoryFetch } from '@/hooks/useCategoryFetch'
+import { usePaymentMethodFetch } from '@/hooks/usePaymentMethodFetch'
+import type { Category } from '@/types/category'
+import type { PaymentMethod } from '@/types/paymentMethod'
+import { useEffect, useRef, useState } from 'react'
+import { MdAdd, MdCheck, MdClear, MdEditNote, MdArrowBack } from 'react-icons/md'
+import dayjs from 'dayjs'
+import LedgerEntryForm from '@/pages/MonthPage/components/LedgerEntryForm'
+import LedgerListItem from '@/pages/MonthPage/components/LedgerListItem'
+import ListHeaderButton from '@/pages/MonthPage/components/ListHeaderButton'
 
 type listModePhase = 'none' | 'select' | 'editing' | 'adding';
 
@@ -28,26 +28,26 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
     phase: 'none',
     editingEntryId: null,
     formLedger: null,
-  });
+  })
 
-  const scrollWrapRef = useRef<HTMLDivElement | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const scrollWrapRef = useRef<HTMLDivElement | null>(null)
+  const loadMoreRef = useRef<HTMLDivElement | null>(null)
   const {
     data: pagingEntries,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useLedgerFetch.useLedgerEntriesByPagination(!selectedDate);
-  const { data: dateEntries, isPending: isDateEntriesPending } = useLedgerFetch.useLedgerEntriesByDate(selectedDate);
-  const { data: categories = [] } = useCategoryFetch.useCategories();
-  const { data: paymentMethods = [] } = usePaymentMethodFetch.usePaymentMethods();
-  const { mutateAsync: createLedgerEntry } = useLedgerFetch.useLedgerEntrySave();
-  const { mutateAsync: updateLedgerEntry } = useLedgerFetch.useLedgerEntryUpdate();
-  const findCategory = (categoryId: number) => categories.find((item: Category) => item.id === categoryId);
+  } = useLedgerFetch.useLedgerEntriesByPagination(!selectedDate)
+  const { data: dateEntries, isPending: isDateEntriesPending } = useLedgerFetch.useLedgerEntriesByDate(selectedDate)
+  const { data: categories = [] } = useCategoryFetch.useCategories()
+  const { data: paymentMethods = [] } = usePaymentMethodFetch.usePaymentMethods()
+  const { mutateAsync: createLedgerEntry } = useLedgerFetch.useLedgerEntrySave()
+  const { mutateAsync: updateLedgerEntry } = useLedgerFetch.useLedgerEntryUpdate()
+  const findCategory = (categoryId: number) => categories.find((item: Category) => item.id === categoryId)
   const findPaymentMethod = (paymentMethodId: number) =>
-    paymentMethods.find((item: PaymentMethod) => item.id === paymentMethodId);
-  const entries = pagingEntries?.pages.flatMap(page => page.content) ?? [];
-  const displayEntries = selectedDate ? dateEntries : entries;
+    paymentMethods.find((item: PaymentMethod) => item.id === paymentMethodId)
+  const entries = pagingEntries?.pages.flatMap(page => page.content) ?? []
+  const displayEntries = selectedDate ? dateEntries : entries
 
   const addItem = () => {
     setListModeState({
@@ -62,8 +62,8 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
         categoryId: undefined,
         paymentId: undefined,
       },
-    });
-  };
+    })
+  }
 
   const startEdit = (entry: LedgerEntryDetail) => {
     setListModeState({
@@ -78,61 +78,61 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
         categoryId: entry.categoryId,
         paymentId: entry.paymentId,
       },
-    });
-  };
+    })
+  }
 
   const handleAddDataChange = (field: keyof LedgerEntryDetail, newValue: string | number) => {
     setListModeState(prev => {
-      if (!prev.formLedger) return prev;
+      if (!prev.formLedger) return prev
       return {
         ...prev,
         formLedger: { ...prev.formLedger, [field]: newValue },
-      };
-    });
-  };
+      }
+    })
+  }
 
   const saveItem = async () => {
-    const { formLedger, editingEntryId } = listModeState;
-    if (!formLedger || formLedger.categoryId == null || formLedger.paymentId == null) return;
+    const { formLedger, editingEntryId } = listModeState
+    if (!formLedger || formLedger.categoryId === undefined || formLedger.paymentId === undefined) return
 
     const payload: CreateLedgerEntry = {
       ...formLedger,
       categoryId: formLedger.categoryId,
       paymentId: formLedger.paymentId,
-    };
+    }
 
     const ledgerId = editingEntryId
       ? await updateLedgerEntry({ id: editingEntryId, ledger: payload })
-      : await createLedgerEntry(payload);
+      : await createLedgerEntry(payload)
 
     if (ledgerId) {
       setListModeState(prev => ({
         phase: prev.phase === 'editing' ? 'select' : 'none',
         editingEntryId: null,
         formLedger: null,
-      }));
+      }))
     }
-  };
+  }
 
   useEffect(() => {
-    if (selectedDate) return;
-    const root = scrollWrapRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLDivElement | null;
-    const target = loadMoreRef.current;
-    if (!root || !target) return;
+    if (selectedDate) return
+    const root = scrollWrapRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLDivElement | null
+    const target = loadMoreRef.current
+    if (!root || !target) return
 
     const observer = new IntersectionObserver(
       item => {
-        if (!item[0]?.isIntersecting) return;
-        if (!hasNextPage) return;
-        if (isFetchingNextPage) return;
-        fetchNextPage();
+        if (!item[0]?.isIntersecting) return
+        if (!hasNextPage) return
+        if (isFetchingNextPage) return
+        fetchNextPage()
       },
       { root, threshold: 0 },
-    );
+    )
 
-    observer.observe(target);
-    return () => observer.disconnect();
-  }, [selectedDate, fetchNextPage, hasNextPage, isFetchingNextPage]);
+    observer.observe(target)
+    return () => observer.disconnect()
+  }, [selectedDate, fetchNextPage, hasNextPage, isFetchingNextPage])
 
   return (
     <div className="w-[360px] shrink-0 h-full flex flex-col gap-[14px] overflow-hidden bg-white border-l border-[#e5e7eb] p-[18px_18px_18px_19px]">
@@ -175,7 +175,7 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
                       phase: prev.phase === 'editing' ? 'select' : 'none',
                       editingEntryId: null,
                       formLedger: null,
-                    }));
+                    }))
                   },
                   icon: <MdClear size="16" />,
                   color: '--expense',
@@ -222,7 +222,7 @@ const LedgerList = ({ selectedDate }: LedgerListProps) => {
         </div>
       </ScrollArea>
     </div>
-  );
-};
+  )
+}
 
-export default LedgerList;
+export default LedgerList

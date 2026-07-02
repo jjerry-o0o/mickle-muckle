@@ -1,5 +1,5 @@
 const TotalSetting = () => {
-  return <div></div>;
-};
+  return <div></div>
+}
 
-export default TotalSetting;
+export default TotalSetting

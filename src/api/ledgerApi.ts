@@ -5,18 +5,18 @@ import type {
   LedgerEntrySummary,
   LedgerMonthData,
   UpdateLedgerEntry,
-} from '@/types/ledger';
-import { axiosApi } from '@/api/axiosInstans';
-import type { MonthEvents, SliceResponse } from '@/types/common';
+} from '@/types/ledger'
+import { axiosApi } from '@/api/axiosInstans'
+import type { MonthEvents, SliceResponse } from '@/types/common'
 
 export const fetchLedgerEntry = async (id: number): Promise<LedgerEntryDetail> => {
-  const { data } = await axiosApi.get<LedgerEntryDetail>(`/ledger/${id}`);
-  return data;
-};
+  const { data } = await axiosApi.get<LedgerEntryDetail>(`/ledger/${id}`)
+  return data
+}
 
 export const fetchLedgerEntriesByMonth = async (targetYm: string): Promise<MonthEvents[]> => {
-  const { data } = await axiosApi.get<LedgerEntrySummary[]>(`/ledger/month/${targetYm}`);
-  let result: MonthEvents[] = [];
+  const { data } = await axiosApi.get<LedgerEntrySummary[]>(`/ledger/month/${targetYm}`)
+  const result: MonthEvents[] = []
   data.forEach(item => {
     result.push({
       id: item.entryId + '',
@@ -28,24 +28,24 @@ export const fetchLedgerEntriesByMonth = async (targetYm: string): Promise<Month
       extendsProps: {
         amount: item.amount,
       },
-    });
-  });
-  return result;
-};
+    })
+  })
+  return result
+}
 
 export const fetchLedgerEntriesByPagination = async (pageNum: number): Promise<SliceResponse<LedgerEntryDetail>> => {
-  const { data } = await axiosApi.get<SliceResponse<LedgerEntryDetail>>(`/ledger/List/${pageNum}`);
-  return data;
-};
+  const { data } = await axiosApi.get<SliceResponse<LedgerEntryDetail>>(`/ledger/List/${pageNum}`)
+  return data
+}
 
 export const fetchLedgerEntriesDailySum = async (targetYm: string): Promise<LedgerMonthData> => {
-  const { data } = await axiosApi.get<LedgerEntryAmountSum[]>(`/ledger/month/sum/${targetYm}`);
-  let incomeAmount = 0;
-  let expenseAmount = 0;
+  const { data } = await axiosApi.get<LedgerEntryAmountSum[]>(`/ledger/month/sum/${targetYm}`)
+  let incomeAmount = 0
+  let expenseAmount = 0
   data.forEach(item => {
-    incomeAmount += item.entryType === 'I' ? item.amount : 0;
-    expenseAmount += item.entryType === 'E' ? item.amount : 0;
-  });
+    incomeAmount += item.entryType === 'I' ? item.amount : 0
+    expenseAmount += item.entryType === 'E' ? item.amount : 0
+  })
   return {
     totalAmount: { income: incomeAmount, expense: expenseAmount },
     events: data.map(item => ({
@@ -59,24 +59,24 @@ export const fetchLedgerEntriesDailySum = async (targetYm: string): Promise<Ledg
         amount: item.amount,
       },
     })),
-  };
-};
+  }
+}
 
 export const createLedgerEntry = async (addLedger: CreateLedgerEntry): Promise<number> => {
-  const { data } = await axiosApi.post<number>(`/ledger`, addLedger);
-  return data;
-};
+  const { data } = await axiosApi.post<number>(`/ledger`, addLedger)
+  return data
+}
 
 export const updateLedgerEntry = async (id: number, ledger: UpdateLedgerEntry): Promise<number> => {
-  const { data } = await axiosApi.patch<number>(`/ledger/${id}`, ledger);
-  return data;
-};
+  const { data } = await axiosApi.patch<number>(`/ledger/${id}`, ledger)
+  return data
+}
 
 export const deleteLedgerEntry = async (id: number): Promise<void> => {
-  await axiosApi.delete(`/ledger/${id}`);
-};
+  await axiosApi.delete(`/ledger/${id}`)
+}
 
 export const fetchLedgerEntriesByDate = async (targetDate: string): Promise<LedgerEntryDetail[]> => {
-  const { data } = await axiosApi.get<LedgerEntryDetail[]>(`/ledger/date/${targetDate}`);
-  return data;
-};
+  const { data } = await axiosApi.get<LedgerEntryDetail[]>(`/ledger/date/${targetDate}`)
+  return data
+}

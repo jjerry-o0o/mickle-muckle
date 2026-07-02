@@ -3,7 +3,7 @@ const FinancePage = () => {
     <div>
       <p>Finance</p>
     </div>
-  );
-};
+  )
+}
 
-export { FinancePage };
+export { FinancePage }

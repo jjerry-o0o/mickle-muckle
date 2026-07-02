@@ -1,4 +1,4 @@
-import { axiosApi } from './axiosInstans';
+import { axiosApi } from './axiosInstans'
 
 export interface LoginRequest {
   email: string;
@@ -30,4 +30,4 @@ export const authApi = {
 
   resetPassword: (email: string, newPassword: string) =>
     axiosApi.patch<void>('/auth/password/reset', { email, newPassword }),
-};
+}

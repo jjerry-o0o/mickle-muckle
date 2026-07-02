@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 interface indexTabProps {
   linkTo: string;
@@ -22,7 +22,7 @@ const IndexTab = ({ linkTo, menuName, borderColor, textColor, extraClass = '' }:
         {menuName}
       </span>
     </Link>
-  );
-};
+  )
+}
 
-export default IndexTab;
+export default IndexTab

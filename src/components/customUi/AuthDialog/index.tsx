@@ -1,9 +1,9 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui';
-import { useState } from 'react';
-import { LogIn } from 'lucide-react';
-import { LoginForm } from '@/components/customUi/AuthDialog/LoginForm';
-import { SignupForm } from '@/components/customUi/AuthDialog/SignupForm';
-import { ForgotPasswordForm } from '@/components/customUi/AuthDialog/ForgotPasswordForm';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui'
+import { useState } from 'react'
+import { LogIn } from 'lucide-react'
+import { LoginForm } from '@/components/customUi/AuthDialog/LoginForm'
+import { SignupForm } from '@/components/customUi/AuthDialog/SignupForm'
+import { ForgotPasswordForm } from '@/components/customUi/AuthDialog/ForgotPasswordForm'
 
 type Mode = 'login' | 'signup' | 'forgot';
 
@@ -11,13 +11,13 @@ type Props = {
   onLogin: () => void;
 }
 const AuthDialog = ({ onLogin }: Props) => {
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState<Mode>('login');
+  const [open, setOpen] = useState(false)
+  const [mode, setMode] = useState<Mode>('login')
 
   const handleOpenChange = (next: boolean) => {
-    setOpen(next);
-    if (!next) setMode('login');
-  };
+    setOpen(next)
+    if (!next) setMode('login')
+  }
 
   const titleMap: Record<Mode, string> = {
     login: '로그인',
@@ -38,7 +38,7 @@ const AuthDialog = ({ onLogin }: Props) => {
         </DialogHeader>
         {mode === 'login' && (
           <LoginForm
-            onSuccess={() => { onLogin(); setOpen(false); }}
+            onSuccess={() => { onLogin(); setOpen(false) }}
             onSwitchSignup={() => setMode('signup')}
             onSwitchForgot={() => setMode('forgot')} />
         )}
@@ -53,7 +53,7 @@ const AuthDialog = ({ onLogin }: Props) => {
         )}
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export { AuthDialog };
+export { AuthDialog }

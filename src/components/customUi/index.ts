@@ -1,3 +1,3 @@
-import IndexTab from '@/components/customUi/indexTab';
+import IndexTab from '@/components/customUi/indexTab'
 
-export { IndexTab };
+export { IndexTab }

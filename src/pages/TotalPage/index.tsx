@@ -1,5 +1,5 @@
-import AssetList from '@/pages/TotalPage/components/AssetList';
-import AssetDashboard from '@/pages/TotalPage/components/AssetDashboard';
+import AssetList from '@/pages/TotalPage/components/AssetList'
+import AssetDashboard from '@/pages/TotalPage/components/AssetDashboard'
 
 const TotalPage = () => {
   return (
@@ -11,7 +11,7 @@ const TotalPage = () => {
         <AssetDashboard />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export { TotalPage };
+export { TotalPage }

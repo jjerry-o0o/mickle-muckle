@@ -1,14 +1,14 @@
-import ListHeaderButton from '@/pages/MonthPage/components/ListHeaderButton';
-import { MdEditNote } from 'react-icons/md';
-import { ScrollArea } from '@/components/ui';
-import { useAssetFetch } from '@/hooks/useAssetFetch';
+import ListHeaderButton from '@/pages/MonthPage/components/ListHeaderButton'
+import { MdEditNote } from 'react-icons/md'
+import { ScrollArea } from '@/components/ui'
+import { useAssetFetch } from '@/hooks/useAssetFetch'
 
 const AssetList = () => {
-  const { data: assetGroups = [], isLoading } = useAssetFetch.useAssets();
+  const { data: assetGroups = [], isLoading } = useAssetFetch.useAssets()
 
   const totalAmount = assetGroups
     .flatMap(g => g.items)
-    .reduce((sum, item) => sum + item.currentValue, 0);
+    .reduce((sum, item) => sum + item.currentValue, 0)
 
   return (
     <div className="bg-white border border-[rgba(229,231,235,0.9)] rounded-[20px] shadow-[0px_10px_24px_0px_rgba(17,24,39,0.06)] p-5 flex flex-col gap-5 h-dvh overflow-hidden">
@@ -55,7 +55,7 @@ const AssetList = () => {
         </span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AssetList;
+export default AssetList

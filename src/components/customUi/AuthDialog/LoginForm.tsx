@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { authApi } from '@/api/authApi';
-import type { AxiosError } from 'axios';
+import { useState } from 'react'
+import { authApi } from '@/api/authApi'
+import type { AxiosError } from 'axios'
 
 type Props = {
   onSuccess: () => void;
@@ -9,20 +9,20 @@ type Props = {
 }
 
 const LoginForm = ({ onSuccess, onSwitchSignup, onSwitchForgot }: Props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
+    e.preventDefault()
+    setError('')
     try {
-      const { token } = await authApi.login({ email, password });
-      localStorage.setItem('token', token);
-      onSuccess();
+      const { token } = await authApi.login({ email, password })
+      localStorage.setItem('token', token)
+      onSuccess()
     } catch (err) {
-      const message = (err as AxiosError<{ message: string }>).response?.data?.message;
-      setError(message ?? '로그인에 실패했습니다.');
+      const message = (err as AxiosError<{ message: string }>).response?.data?.message
+      setError(message ?? '로그인에 실패했습니다.')
     }
   }
   return (
@@ -41,4 +41,4 @@ const LoginForm = ({ onSuccess, onSwitchSignup, onSwitchForgot }: Props) => {
   )
 }
 
-export { LoginForm };
+export { LoginForm }

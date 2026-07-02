@@ -1,12 +1,12 @@
-import { clsx } from 'clsx';
-import type { EntryType, LedgerEntryDetail } from '@/types/ledger';
-import type { Category } from '@/types/category';
-import type { PaymentMethod } from '@/types/paymentMethod';
-import { formatToKoreanDate } from '@/utils/dateUtil';
-import { ButtonGroup, ButtonGroupSeparator } from '@/components/ui/button-group';
-import { Button } from '@/components/ui';
-import { useState } from 'react';
-import { useLedgerFetch } from '@/hooks/useLedgerFetch';
+import { clsx } from 'clsx'
+import type { EntryType, LedgerEntryDetail } from '@/types/ledger'
+import type { Category } from '@/types/category'
+import type { PaymentMethod } from '@/types/paymentMethod'
+import { formatToKoreanDate } from '@/utils/dateUtil'
+import { ButtonGroup, ButtonGroupSeparator } from '@/components/ui/button-group'
+import { Button } from '@/components/ui'
+import { useState } from 'react'
+import { useLedgerFetch } from '@/hooks/useLedgerFetch'
 
 interface LedgerListItemProps {
   key: number;
@@ -26,23 +26,23 @@ const LedgerListItem = ({
   startEdit,
   editingEntryId,
 }: LedgerListItemProps) => {
-  const [isDeleteConfirming, setIsDeleteConfirming] = useState<boolean>(false);
-  const { mutateAsync: deleteLedgerEntry, isPending } = useLedgerFetch.useLedgerEntryDelete();
+  const [isDeleteConfirming, setIsDeleteConfirming] = useState<boolean>(false)
+  const { mutateAsync: deleteLedgerEntry, isPending } = useLedgerFetch.useLedgerEntryDelete()
 
-  const formattedDate = formatToKoreanDate(entry.entryDate);
+  const formattedDate = formatToKoreanDate(entry.entryDate)
   const amountColor = (entryType: EntryType) =>
-    entryType === 'E' ? 'text-expense' : 'text-income';
-  const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+');
-  const amount = `${amountPrefix(entry.entryType)}${entry.amount.toLocaleString()}원`;
+    entryType === 'E' ? 'text-expense' : 'text-income'
+  const amountPrefix = (entryType: EntryType) => (entryType === 'E' ? '-' : '+')
+  const amount = `${amountPrefix(entry.entryType)}${entry.amount.toLocaleString()}원`
 
   const handleDeleteButtonAction = async () => {
     if (!isDeleteConfirming) {
-      setIsDeleteConfirming(true);
-      return;
+      setIsDeleteConfirming(true)
+      return
     }
-    await deleteLedgerEntry(entry.entryId);
-    setIsDeleteConfirming(false);
-  };
+    await deleteLedgerEntry(entry.entryId)
+    setIsDeleteConfirming(false)
+  }
 
   return (
     <div
@@ -89,10 +89,10 @@ const LedgerListItem = ({
             className={`font-bold hover:text-white ${isDeleteConfirming ? 'w-[30%] border-[var(--income-deep)] text-[var(--income-deep)] hover:bg-[var(--income-deep)]' : 'w-[50%] border-[var(--income)] text-[var(--income)] hover:bg-[var(--income)]'}`}
             onClick={() => {
               if (isDeleteConfirming) {
-                setIsDeleteConfirming(false);
-                return;
+                setIsDeleteConfirming(false)
+                return
               }
-              startEdit(entry);
+              startEdit(entry)
             }}
           >
             {isDeleteConfirming ? 'Cancel' : 'Edit'}
@@ -110,7 +110,7 @@ const LedgerListItem = ({
         </ButtonGroup>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default LedgerListItem;
+export default LedgerListItem

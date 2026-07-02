@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchAssets } from '@/api/assetApi';
+import { useQuery } from '@tanstack/react-query'
+import { fetchAssets } from '@/api/assetApi'
 
 export const useAssetFetch = {
   useAssets: () =>
@@ -7,4 +7,4 @@ export const useAssetFetch = {
       queryKey: ['assets'],
       queryFn: fetchAssets,
     }),
-};
+}

@@ -1,17 +1,17 @@
-import MonthlyCalendar from '@/pages/MonthPage/components/MonthlyCalendar';
-import LedgerList from '@/pages/MonthPage/components/LedgerList';
-import { useState } from 'react';
+import MonthlyCalendar from '@/pages/MonthPage/components/MonthlyCalendar'
+import LedgerList from '@/pages/MonthPage/components/LedgerList'
+import { useState } from 'react'
 
 const MonthPage = () => {
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
   const handleDateClick = (date: string) => {
     if (selectedDate && selectedDate === date) {
-      setSelectedDate(null);
+      setSelectedDate(null)
     } else {
-      setSelectedDate(date);
+      setSelectedDate(date)
     }
-  };
+  }
 
   return (
     <div className="flex w-full h-full bg-[#f8fafc]">
@@ -20,7 +20,7 @@ const MonthPage = () => {
       </main>
       <LedgerList selectedDate={selectedDate} />
     </div>
-  );
-};
+  )
+}
 
-export { MonthPage };
+export { MonthPage }

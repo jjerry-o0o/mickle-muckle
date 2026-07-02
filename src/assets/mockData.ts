@@ -53,7 +53,7 @@ const payments = [
     payType: '현급',
     entryType: 'I',
   },
-];
+]
 
 const weekText = [
   { id: 0, text: 'Sun' },
@@ -63,10 +63,10 @@ const weekText = [
   { id: 4, text: 'Thu' },
   { id: 5, text: 'Fri' },
   { id: 6, text: 'Sat' },
-];
+]
 
 const payType = [
   { id: 1, name: '케이뱅크체크카드', type: 'check' },
   { id: 2, name: '신한더모아신용카드', type: 'credit' },
-];
-export { payments, weekText, payType };
+]
+export { payments, weekText, payType }

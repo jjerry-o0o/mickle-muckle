@@ -1,5 +1,5 @@
 // 'E' (expense) / 'I' (income)
-import type { MonthEvents } from '@/types/common';
+import type { MonthEvents } from '@/types/common'
 
 export type EntryType = 'E' | 'I';
 

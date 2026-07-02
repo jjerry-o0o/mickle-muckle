@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { LogOut } from 'lucide-react';
-import { IndexTab } from '@/components/customUi';
-import { AuthDialog } from '@/components/customUi/AuthDialog';
+import { useState } from 'react'
+import { LogOut } from 'lucide-react'
+import { IndexTab } from '@/components/customUi'
+import { AuthDialog } from '@/components/customUi/AuthDialog'
 
 const SideBar = () => {
-  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'))
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setLoggedIn(false);
-  };
+    localStorage.removeItem('token')
+    setLoggedIn(false)
+  }
 
   return (
     <div className="w-[70px] h-full flex flex-col items-center px-[14px] py-[18px] gap-4 bg-white border-r border-[#e5e7eb]">
@@ -48,7 +48,7 @@ const SideBar = () => {
         <AuthDialog onLogin={() => setLoggedIn(true)} />
       )}
     </div>
-  );
-};
+  )
+}
 
-export { SideBar };
+export { SideBar }

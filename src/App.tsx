@@ -1,11 +1,11 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { SideBar } from '@/components/layout/SideBar';
-import { MonthPage } from '@/pages/MonthPage';
-import { FinancePage } from '@/pages/FinancePage';
-import { TotalPage } from '@/pages/TotalPage';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { SideBar } from '@/components/layout/SideBar'
+import { MonthPage } from '@/pages/MonthPage'
+import { FinancePage } from '@/pages/FinancePage'
+import { TotalPage } from '@/pages/TotalPage'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         </BrowserRouter>
       </div>
     </QueryClientProvider>
-  );
+  )
 }
 
-export default App;
+export default App

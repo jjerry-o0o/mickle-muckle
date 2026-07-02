@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from 'react'
 
 interface HeaderButtonItem {
   label: string;
@@ -30,7 +30,7 @@ const ListHeaderButton = ({ buttons }: ListHeaderButtonProps) => {
         </button>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default ListHeaderButton;
+export default ListHeaderButton
