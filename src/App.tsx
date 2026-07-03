@@ -4,24 +4,27 @@ import { MonthPage } from '@/pages/MonthPage'
 import { FinancePage } from '@/pages/FinancePage'
 import { TotalPage } from '@/pages/TotalPage'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 const queryClient = new QueryClient()
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="w-full h-dvh bg-background flex">
-        <BrowserRouter>
-          <SideBar />
-          <main className="flex-1 h-full">
-            <Routes>
-              <Route path="/" element={<MonthPage />} />
-              <Route path="/total" element={<TotalPage />} />
-              <Route path="/finance" element={<FinancePage />} />
-            </Routes>
-          </main>
-        </BrowserRouter>
-      </div>
+      <AuthProvider>
+        <div className="w-full h-dvh bg-background flex">
+          <BrowserRouter>
+            <SideBar />
+            <main className="flex-1 h-full">
+              <Routes>
+                <Route path="/" element={<MonthPage />} />
+                <Route path="/total" element={<TotalPage />} />
+                <Route path="/finance" element={<FinancePage />} />
+              </Routes>
+            </main>
+          </BrowserRouter>
+        </div>
+      </AuthProvider>
     </QueryClientProvider>
   )
 }

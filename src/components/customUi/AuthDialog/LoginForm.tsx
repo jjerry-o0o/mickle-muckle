@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { authApi } from '@/api/authApi'
 import type { AxiosError } from 'axios'
+import { useAuth } from '@/contexts/AuthContext'
 
 type Props = {
   onSuccess: () => void;
@@ -9,6 +9,7 @@ type Props = {
 }
 
 const LoginForm = ({ onSuccess, onSwitchSignup, onSwitchForgot }: Props) => {
+  const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -17,8 +18,7 @@ const LoginForm = ({ onSuccess, onSwitchSignup, onSwitchForgot }: Props) => {
     e.preventDefault()
     setError('')
     try {
-      const { token } = await authApi.login({ email, password })
-      localStorage.setItem('token', token)
+      await login(email, password)
       onSuccess()
     } catch (err) {
       const message = (err as AxiosError<{ message: string }>).response?.data?.message

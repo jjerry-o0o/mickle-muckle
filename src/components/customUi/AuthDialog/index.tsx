@@ -7,10 +7,7 @@ import { ForgotPasswordForm } from '@/components/customUi/AuthDialog/ForgotPassw
 
 type Mode = 'login' | 'signup' | 'forgot';
 
-type Props = {
-  onLogin: () => void;
-}
-const AuthDialog = ({ onLogin }: Props) => {
+const AuthDialog = () => {
   const [open, setOpen] = useState(false)
   const [mode, setMode] = useState<Mode>('login')
 
@@ -38,7 +35,7 @@ const AuthDialog = ({ onLogin }: Props) => {
         </DialogHeader>
         {mode === 'login' && (
           <LoginForm
-            onSuccess={() => { onLogin(); setOpen(false) }}
+            onSuccess={() => setOpen(false)}
             onSwitchSignup={() => setMode('signup')}
             onSwitchForgot={() => setMode('forgot')} />
         )}

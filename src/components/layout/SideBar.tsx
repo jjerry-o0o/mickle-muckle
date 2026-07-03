@@ -1,15 +1,10 @@
-import { useState } from 'react'
 import { LogOut } from 'lucide-react'
 import { IndexTab } from '@/components/customUi'
 import { AuthDialog } from '@/components/customUi/AuthDialog'
+import { useAuth } from '@/contexts/AuthContext'
 
 const SideBar = () => {
-  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'))
-
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    setLoggedIn(false)
-  }
+  const { loggedIn, logout } = useAuth()
 
   return (
     <div className="w-[70px] h-full flex flex-col items-center px-[14px] py-[18px] gap-4 bg-white border-r border-[#e5e7eb]">
@@ -39,13 +34,13 @@ const SideBar = () => {
 
       {loggedIn ? (
         <button
-          onClick={handleLogout}
+          onClick={logout}
           className="w-10 h-10 rounded-full bg-[#f9fafb] border border-[#e5e7eb] flex items-center justify-center hover:bg-[#f3f4f6] transition-colors"
         >
           <LogOut size={18} className="text-[#6b7280]" />
         </button>
       ) : (
-        <AuthDialog onLogin={() => setLoggedIn(true)} />
+        <AuthDialog />
       )}
     </div>
   )
